@@ -33,6 +33,6 @@
 	},
   "dependencies": {
     "jb-searchbar-react":"jb-searchbar-react@0.0.1",
-    "jb-modules":"jb-modules@0.0.2"
+    "jb-modules":"jb-modules@0.0.3"
   }
 }
