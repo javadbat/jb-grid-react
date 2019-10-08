@@ -15,7 +15,7 @@
     "react",
     "mobx"
   ],
-  "version": "0.0.1",
+  "version": "0.0.5",
   "bugs": "https://github.com/javadbat/jb-grid-react/issues",
   "license": "MIT",
   "files": [
@@ -30,9 +30,21 @@
   "repository": {
 		"type": "git",
 		"url": "git@github.com:javadbat/jb-grid-react.git"
-	},
+  },
+  "jspm": {
+    "main": "./dist/JBGrid.systemjs.min.js",
+    "format":"register",
+    "files": [
+      "dist/JBGrid.systemjs.min.js",
+      "dist/JBGridData.systemjs.min.js",
+      "dist/JBGrid.css",
+      "dist/JBLoading/JBLoading.css",
+      "LICENSE",
+      "README.md"
+    ]
+  },
   "dependencies": {
-    "jb-searchbar-react":"jb-searchbar-react@0.0.1",
-    "jb-modules":"jb-modules@0.0.3"
+    "jb-searchbar-react":">0.1.0",
+    "jb-modules":"0.0.5"
   }
 }
