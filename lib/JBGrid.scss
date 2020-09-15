@@ -23,7 +23,7 @@ $tablet-width: 768px;
 
 .jb-grid-header{
     background-color: #fff;
-    border-bottom: 3px solid #2dadc1;
+    //border-bottom: 3px solid #2dadc1;
     grid-column-start: 1;
     grid-column-end:end;
     grid-row-start: 1;
@@ -35,7 +35,7 @@ $tablet-width: 768px;
     border-top-right-radius: 4px;
 
     .main-section{
-        height: 45px;
+        height: 48px;
         width: 100%;
         .button-container{
             float: left;
