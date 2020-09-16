@@ -11,8 +11,8 @@ $tablet-width: 768px;
     height: 100%;
     display: block;
     box-shadow: 0px 0px 14px 2px #f0f4f7;
-    border-radius: 16px;
-    background-color: #1E2832;
+    border-radius: 24px;
+    background-color: #edf2f9;
     svg {
         fill: #7b7b7b;
     }
@@ -29,16 +29,26 @@ $tablet-width: 768px;
         display: block;
         height: auto;
         width: 100%;
-        border-top-left-radius: 16px;
-        border-top-right-radius: 16px;
-    
+        border-top-left-radius: 24px;
+        border-top-right-radius: 24px;
+
         .main-section {
-            height: 48px;
+            height: 56px;
             width: 100%;
+            padding-top: 8px;
+            box-sizing: border-box;
+            .jb-grid-title {
+                float: right;
+                display: block;
+                padding: 0 8px;
+                font-size: 18px;
+                line-height: 48px;
+            }
             .button-container {
                 float: left;
                 display: flex;
                 height: 100%;
+                padding: 0 8px;
             }
             &.hidden {
                 display: none;
@@ -54,7 +64,7 @@ $tablet-width: 768px;
                 float: right;
                 width: 45px;
                 height: 45px;
-    
+
                 svg {
                     width: 24px;
                     margin: 11px;
@@ -75,13 +85,7 @@ $tablet-width: 768px;
             display: block;
             margin: 8px 8px;
         }
-        .jb-grid-title {
-            float: right;
-            display: block;
-            padding: 0 8px;
-            font-size: 18px;
-            line-height: 48px;
-        }
+
         .jb-grid-content {
             background-color: #fff;
             grid-column-start: 1;
@@ -92,14 +96,14 @@ $tablet-width: 768px;
     }
     .jb-grid-footer {
         background-color: transparent;
-        height: 48px;
+        height: 56px;
         width: 100%;
         display: flex;
         align-items: center;
         border-bottom-left-radius: 16px;
         border-bottom-right-radius: 16px;
         justify-content: space-between;
-        .page-section{
+        .page-section {
             display: flex;
             align-items: center;
             justify-content: flex-start;
@@ -137,9 +141,11 @@ $tablet-width: 768px;
                     align-items: center;
                     height: 48px;
                     .nav-btn {
-                        height: 100%;
+                        height: 48px;
                         width: 48px;
-                        padding: 4px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
                         &:hover {
                             cursor: pointer;
                             svg {
@@ -187,26 +193,35 @@ $tablet-width: 768px;
 .btn-wrapper-section {
     float: right;
     height: 100%;
-}
-.btn-wrapper-section .btn {
-    float: right;
-    width: 48px;
-    height: 48px;
-    cursor: pointer;
-}
-.btn-wrapper-section .btn svg {
-    height: 24px;
-    margin: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .btn {
+        width: 48px;
+        height: 48px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        svg {
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
 }
 .btn-wrapper-section .btn svg .refresh-btn {
     transform: rotate(-146deg);
 }
-.jb-grid-content{
+.jb-grid-content {
     display: block;
-    height: calc(100% - 96px);
+    //56*2=112
+    height: calc(100% - 112px);
     position: relative;
-    border-radius:  0 0 16px 16px;
+    border-radius: 0 0 24px 24px;
     overflow: hidden;
+    box-shadow: #00000014 0px 15px 14px -5px;
     .loading {
         position: absolute;
         width: 100%;
@@ -302,9 +317,9 @@ $tablet-width: 768px;
         }
         &::-webkit-scrollbar {
             width: 9px;
-            background-color: #f0f4f7;
+            background-color: transparent;
         }
-    
+
         &::-webkit-scrollbar-thumb {
             background-color: #c3c3c3;
         }
@@ -336,7 +351,7 @@ $tablet-width: 768px;
                 }
                 box-sizing: border-box;
                 grid-auto-rows: minmax(48px, auto);
-    
+
                 &:nth-child(even) {
                     background: $BaseGridRowColor;
                 }
@@ -349,7 +364,7 @@ $tablet-width: 768px;
                 display: grid;
                 align-items: center;
                 border-left: 1px solid $BaseGridRowColor;
-    
+
                 &.flex-cell {
                     display: flex;
                 }
@@ -357,10 +372,8 @@ $tablet-width: 768px;
                     grid-template-columns: 24px auto;
                 }
             }
-            
         }
     }
-
 }
 .jb-grid-wrapper .jb-grid-content .collapse-btn {
     float: right;
