@@ -27,6 +27,7 @@ $tablet-width: 768px;
         grid-row-start: 1;
         grid-row-end: span 1;
         display: block;
+        min-height: 56px;
         height: auto;
         width: 100%;
         border-top-left-radius: 24px;
@@ -57,6 +58,8 @@ $tablet-width: 768px;
         .search-section {
             height: 100%;
             width: 100%;
+            display: flex;
+            align-items: center;
             &.hidden {
                 display: none;
             }
@@ -75,6 +78,12 @@ $tablet-width: 768px;
                 float: right;
                 width: calc(100% - 48px);
                 height: 100%;
+                display: flex;
+                align-items: center;
+                align-content: stretch;
+                jb-searchbar{
+                    width: 100%;
+                }
             }
         }
         .button-container .btn {
