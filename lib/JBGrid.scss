@@ -9,7 +9,10 @@ $tablet-width: 768px;
 .jb-grid-wrapper {
     width: 100%;
     height: 100%;
-    display: block;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(56px , auto) 1fr 56px;
+    grid-template-areas: "header" "content" "footer";
     box-shadow: 0px 0px 14px 2px #f0f4f7;
     border-radius: 24px;
     background-color: #edf2f9;
@@ -27,12 +30,11 @@ $tablet-width: 768px;
         grid-row-start: 1;
         grid-row-end: span 1;
         display: block;
-        min-height: 56px;
         height: auto;
         width: 100%;
         border-top-left-radius: 24px;
         border-top-right-radius: 24px;
-
+        grid-area: header;
         .main-section {
             height: 56px;
             width: 100%;
@@ -94,16 +96,171 @@ $tablet-width: 768px;
             display: block;
             margin: 8px 8px;
         }
-
-        .jb-grid-content {
+    }
+    .jb-grid-content {
+        display: block;
+        //56*2=112
+        height: 100%;
+        position: relative;
+        border-radius: 0 0 24px 24px;
+        overflow: hidden;
+        box-shadow: #00000014 0px 15px 14px -5px;
+        grid-area: content;
+        .loading {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #fffffff2;
+            top: 0;
+            right: 0;
+            .loading-content {
+                width: 300px;
+                height: 300px;
+                position: relative;
+                top: calc(50% - 150px);
+                right: calc(50% - 150px);
+                font-size: 23px;
+            }
+        }
+        .error-panel {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            .error-image {
+                font-size: 5em;
+            }
+            .error-text {
+                font-weight: 100;
+                font-size: 1.5em;
+                padding: 16px 0;
+                color: #333;
+            }
+            .error-button button {
+                padding: 8px 16px;
+                background: green;
+                color: #fff;
+                border: none;
+                border-radius: 150px;
+                cursor: pointer;
+                font-family: inherit;
+            }
+        }
+        .table-header {
+            width: 100%;
+            height: 32px;
+            background-color: #f0f4f7;
+            overflow: hidden;
+            @include tablet {
+                display: none;
+            }
+            .table-header-wrapper {
+                display: grid;
+                grid-template-columns: auto;
+                grid-auto-columns: 1fr;
+                line-height: 32px;
+    
+                .header-item {
+                    padding: 0 16px;
+                    align-self: right;
+                    overflow: hidden;
+                    &.sortable-col {
+                        cursor: pointer;
+                    }
+                    display: flex;
+                    .sort-icon-wrapper {
+                        svg {
+                            fill: #1e201d;
+                            height: 16px;
+                            margin-top: 8px;
+                            &.--asc {
+                                transition: all 0.2s ease-out;
+                                transform: rotate(0deg);
+                            }
+                            &.--desc {
+                                transform: rotate(180deg);
+                                transition: all 0.2s ease-out;
+                            }
+                        }
+                    }
+    
+                    .caption-wrapper {
+                    }
+                }
+            }
+        }
+        .table-content {
+            width: 100%;
             background-color: #fff;
-            grid-column-start: 1;
-            grid-column-end: end;
-            grid-row-start: 2;
-            grid-row-end: span 1;
+            overflow-y: scroll;
+            height: calc(100% - 32px);
+            @include tablet {
+                height: 100%;
+            }
+            &::-webkit-scrollbar {
+                width: 9px;
+                background-color: transparent;
+            }
+    
+            &::-webkit-scrollbar-thumb {
+                background-color: #c3c3c3;
+            }
+            .table-content-wrapper {
+                display: block;
+                height: 100%;
+                width: 100%;
+                max-height: 100%;
+                $BaseGridRowColor: #f9f9f9;
+                .jb-grid-table-row {
+                    width: 100%;
+                    display: grid;
+                    grid-template-columns: auto;
+                    @include tablet {
+                        grid-template-columns: auto !important;
+                        grid-template-rows: auto;
+                        .jb-grid-table-cell {
+                            &:first-child {
+                                box-shadow: 0px 6px 6px #dadada;
+                            }
+                            &:not(:first-child) {
+                                display: grid;
+                                grid-template-columns: 1fr 4fr;
+                                &::before {
+                                    content: attr(data-label);
+                                }
+                            }
+                        }
+                    }
+                    box-sizing: border-box;
+                    grid-auto-rows: minmax(48px, auto);
+    
+                    &:nth-child(even) {
+                        background: $BaseGridRowColor;
+                    }
+                }
+                .jb-grid-table-cell {
+                    padding: 4px 16px;
+                    overflow-x: hidden;
+                    grid-auto-rows: minmax(48px, auto);
+                    align-self: center;
+                    display: grid;
+                    align-items: center;
+                    border-left: 1px solid $BaseGridRowColor;
+    
+                    &.flex-cell {
+                        display: flex;
+                    }
+                    &.with-collapse-cell {
+                        grid-template-columns: 24px auto;
+                    }
+                }
+            }
         }
     }
     .jb-grid-footer {
+        grid-area: footer;
         background-color: transparent;
         height: 56px;
         width: 100%;
@@ -223,167 +380,7 @@ $tablet-width: 768px;
 .btn-wrapper-section .btn svg .refresh-btn {
     transform: rotate(-146deg);
 }
-.jb-grid-content {
-    display: block;
-    //56*2=112
-    height: calc(100% - 112px);
-    position: relative;
-    border-radius: 0 0 24px 24px;
-    overflow: hidden;
-    box-shadow: #00000014 0px 15px 14px -5px;
-    .loading {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background-color: #fffffff2;
-        top: 0;
-        right: 0;
-        .loading-content {
-            width: 300px;
-            height: 300px;
-            position: relative;
-            top: calc(50% - 150px);
-            right: calc(50% - 150px);
-            font-size: 23px;
-        }
-    }
-    .error-panel {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        .error-image {
-            font-size: 5em;
-        }
-        .error-text {
-            font-weight: 100;
-            font-size: 1.5em;
-            padding: 16px 0;
-            color: #333;
-        }
-        .error-button button {
-            padding: 8px 16px;
-            background: green;
-            color: #fff;
-            border: none;
-            border-radius: 150px;
-            cursor: pointer;
-            font-family: inherit;
-        }
-    }
-    .table-header {
-        width: 100%;
-        height: 32px;
-        background-color: #f0f4f7;
-        overflow: hidden;
-        @include tablet {
-            display: none;
-        }
-        .table-header-wrapper {
-            display: grid;
-            grid-template-columns: auto;
-            grid-auto-columns: 1fr;
-            line-height: 32px;
 
-            .header-item {
-                padding: 0 16px;
-                align-self: right;
-                overflow: hidden;
-                &.sortable-col {
-                    cursor: pointer;
-                }
-                display: flex;
-                .sort-icon-wrapper {
-                    svg {
-                        fill: #1e201d;
-                        height: 16px;
-                        margin-top: 8px;
-                        &.--asc {
-                            transition: all 0.2s ease-out;
-                            transform: rotate(0deg);
-                        }
-                        &.--desc {
-                            transform: rotate(180deg);
-                            transition: all 0.2s ease-out;
-                        }
-                    }
-                }
-
-                .caption-wrapper {
-                }
-            }
-        }
-    }
-    .table-content {
-        width: 100%;
-        background-color: #fff;
-        overflow-y: scroll;
-        height: calc(100% - 32px);
-        @include tablet {
-            height: 100%;
-        }
-        &::-webkit-scrollbar {
-            width: 9px;
-            background-color: transparent;
-        }
-
-        &::-webkit-scrollbar-thumb {
-            background-color: #c3c3c3;
-        }
-        .table-content-wrapper {
-            display: block;
-            height: 100%;
-            width: 100%;
-            max-height: 100%;
-            $BaseGridRowColor: #f9f9f9;
-            .jb-grid-table-row {
-                width: 100%;
-                display: grid;
-                grid-template-columns: auto;
-                @include tablet {
-                    grid-template-columns: auto !important;
-                    grid-template-rows: auto;
-                    .jb-grid-table-cell {
-                        &:first-child {
-                            box-shadow: 0px 6px 6px #dadada;
-                        }
-                        &:not(:first-child) {
-                            display: grid;
-                            grid-template-columns: 1fr 4fr;
-                            &::before {
-                                content: attr(data-label);
-                            }
-                        }
-                    }
-                }
-                box-sizing: border-box;
-                grid-auto-rows: minmax(48px, auto);
-
-                &:nth-child(even) {
-                    background: $BaseGridRowColor;
-                }
-            }
-            .jb-grid-table-cell {
-                padding: 4px 16px;
-                overflow-x: hidden;
-                grid-auto-rows: minmax(48px, auto);
-                align-self: center;
-                display: grid;
-                align-items: center;
-                border-left: 1px solid $BaseGridRowColor;
-
-                &.flex-cell {
-                    display: flex;
-                }
-                &.with-collapse-cell {
-                    grid-template-columns: 24px auto;
-                }
-            }
-        }
-    }
-}
 .jb-grid-wrapper .jb-grid-content .collapse-btn {
     float: right;
     cursor: pointer;
