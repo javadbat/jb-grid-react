@@ -15,7 +15,7 @@
     "react",
     "mobx"
   ],
-  "version": "0.5.0",
+  "version": "0.6.3",
   "bugs": "https://github.com/javadbat/jb-grid-react/issues",
   "license": "MIT",
   "files": [
@@ -33,6 +33,8 @@
 		"url": "git@github.com:javadbat/jb-grid-react.git"
   },
   "dependencies": {
-    "jb-searchbar":">1.0.4"
+    "mobx":">=6.0.0",
+    "mobx-react":">=7.0.0",
+    "jb-searchbar":">=1.0.5"
   }
 }

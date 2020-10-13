@@ -1,3 +1,3 @@
-import JBGrid , {Row, Cell} from './dist/JBGrid.js';
+import JBGrid , {Row, Cell, JBGridData} from './dist/JBGrid.js';
 export default JBGrid;
-export {Row, Cell};
+export {Row, Cell, JBGridData};
