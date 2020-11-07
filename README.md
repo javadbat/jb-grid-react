@@ -2,6 +2,8 @@
 
 ## instructions
 
+### config
+
 ### fullscreen grid
 
 jb-grid has a fullscreenable feature and you can activite that by set `isFullscreen={value:bool}` for example
