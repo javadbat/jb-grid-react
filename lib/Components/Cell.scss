@@ -1,0 +1,37 @@
+$BaseGridRowColor: #f9f9f9;
+.jb-grid-wrapper .jb-grid-content{
+    .jb-grid-table-cell {
+        padding: 4px 16px;
+        overflow-x: hidden;
+        grid-auto-rows: minmax(48px, auto);
+        align-self: center;
+        display: grid;
+        align-items: center;
+        border-left: 1px solid $BaseGridRowColor;
+    
+        &.flex-cell {
+            display: flex;
+        }
+        &.with-collapse-cell {
+            grid-template-columns: 24px auto;
+        }
+    }
+}
+
+.jb-grid-wrapper .jb-grid-content .collapse-btn {
+    float: right;
+    cursor: pointer;
+    margin-left: 8px;
+}
+.jb-grid-wrapper .jb-grid-content .collapse-btn svg {
+    width: 12px;
+    height: 100%;
+}
+.jb-grid-wrapper .jb-grid-content .collapse-btn.close svg {
+    transform: rotate(180deg);
+    transition: all 0.2s ease-in-out;
+}
+.jb-grid-wrapper .jb-grid-content .collapse-btn.open svg {
+    transform: rotate(90deg);
+    transition: all 0.2s ease-in-out;
+}

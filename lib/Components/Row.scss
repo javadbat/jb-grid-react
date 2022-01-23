@@ -1,0 +1,36 @@
+$BaseGridRowColor: #f9f9f9;
+$tablet-width: 768px;
+@mixin tablet {
+    @media (max-width: #{$tablet-width}) {
+        @content;
+    }
+}
+.jb-grid-wrapper .jb-grid-content{
+    .jb-grid-table-row {
+        width: 100%;
+        display: grid;
+        grid-template-columns: auto;
+        @include tablet {
+            grid-template-columns: auto !important;
+            grid-template-rows: auto;
+            .jb-grid-table-cell {
+                &:first-child {
+                    box-shadow: 0px 6px 6px #dadada;
+                }
+                &:not(:first-child) {
+                    display: grid;
+                    grid-template-columns: 1fr 4fr;
+                    &::before {
+                        content: attr(data-label);
+                    }
+                }
+            }
+        }
+        box-sizing: border-box;
+        grid-auto-rows: minmax(48px, auto);
+    
+        &:nth-child(even) {
+            background: $BaseGridRowColor;
+        }
+    }
+}

@@ -10,6 +10,6 @@ jb-grid has a fullscreenable feature and you can activite that by set `isFullscr
 
 ```js
 
-    <jb-grid isFullscreen={this.state.isFullscreen} onFullscreenChange={(newValue)=>this.setState({isFullscreen : newValue})}>
+    <JBGrid isFullscreen={this.state.isFullscreen} onFullscreenChange={(newValue)=>this.setState({isFullscreen : newValue})}>
 
 ```
