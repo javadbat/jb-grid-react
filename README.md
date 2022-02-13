@@ -1,5 +1,11 @@
 # jb-grid-react
-
+import files
+```js
+import {JBGrid} from 'jb-grid-react'
+import {Cell} from 'jb-grid-react/cell'
+import {Row} from 'jb-grid-react/row'
+import JBGridData from 'jb-grid-react/data'
+```
 ## instructions
 
 ### config
