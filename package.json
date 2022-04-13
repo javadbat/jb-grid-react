@@ -44,6 +44,9 @@
     },
     "./data": {
       "import": "./lib/JBGridData.js"
+    },
+    "./expand-row": {
+      "import": "./dist/Components/ExpandRow.js"
     }
   },
   "dependencies": {

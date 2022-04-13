@@ -29,7 +29,7 @@ $tablet-width: 768px;
         box-sizing: border-box;
         grid-auto-rows: minmax(48px, auto);
     
-        &:nth-child(even) {
+        &:nth-of-type(even) {
             background: $BaseGridRowColor;
         }
     }

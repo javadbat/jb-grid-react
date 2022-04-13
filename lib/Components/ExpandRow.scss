@@ -1,0 +1,16 @@
+
+.jb-grid-wrapper .jb-grid-content{
+    .jb-grid-expand-row{
+        width: 100%;
+        min-height: 64px;
+        padding: 5px 10px;
+        border-bottom: 1px solid #ebebeb;
+        //TODO: change this to nth-child(even of .jb-grid-expand-row) when supported in future
+        &:nth-of-type(even) {
+            background: #f9f9f9;
+        }
+        &.--hidden{
+            display: none;
+        }
+    }
+}
