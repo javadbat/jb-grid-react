@@ -1,6 +1,7 @@
 import React from 'react';
 import JBGridViewModel from './JBGridViewModel';
 import { JBSearchbarWebComponent } from 'jb-searchbar';
+import { observer } from 'mobx-react';
 type HeaderProps = {
     vm: JBGridViewModel,
     title: string,
@@ -61,4 +62,4 @@ function Header(props: HeaderProps) {
     );
 }
 
-export default Header;
+export default observer(Header) ;
