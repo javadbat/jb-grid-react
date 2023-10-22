@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext, useContext } from 'react';
 import { observable, extendObservable, makeObservable, action } from 'mobx';
 import { JBGridBridgeClassInterface, JBGridBridgeInterface, JBGridConfig, JBGridConfigInterface, JBGridFilter, JBGridResponseData, JBGridRowData, SearchbarConfig } from './Types';
 import { JBGridProps } from './JBGrid';
@@ -438,3 +438,5 @@ class JBGridViewModel {
 }
 
 export default JBGridViewModel;
+export const JBGridContext = createContext<JBGridViewModel | null>(null);
+export const useJBGridVM = () => useContext(JBGridContext);
