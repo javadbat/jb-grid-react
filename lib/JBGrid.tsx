@@ -10,6 +10,7 @@ import Header from './Header';
 import Content from './Content';
 import { useMobx } from '../../../common/hooks/useMobx';
 export {Row} from './Components/Row';
+export {Cell} from './Components/Cell';
 export type JBGridProps = {
     searchbarConfig: any,
     config: any,
