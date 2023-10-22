@@ -1,16 +1,7 @@
 import { makeObservable, observable } from 'mobx';
-import { HeaderSections } from './Types';
+import { JBGridConfigStates, JBGridDataPage, JBGridTableConfig,JBGridCallbackConfig, JBGridi18nConfig, JBGridDataConfig, JBGridConfigInterface } from './Types';
 
-/**
- * @typedef JBGridColumnDef
- * @property {number} id
- * @property {string} caption
- * @property {string} name
- * @property {boolean} sortable
- * @property {string | number} width
- */
-
-class JBGridData {
+class JBGridData implements JBGridConfigInterface {
     constructor(){
         makeObservable(this,{
             table:observable,
@@ -19,43 +10,47 @@ class JBGridData {
             states:observable
         });
     }
-    table = {
-        /**
-         * @type {JBGridColumnDef[]}
-         */
+    table:JBGridTableConfig = {
         columns: []
     }
-    data = {
-        method: "POST",
-        url: '',
+    data:JBGridDataConfig = {
         data: [],
+        requestParams:{
+            method:"GET",
+            url:""
+        },
         //keep detail of which items we show in a grid and detail of what information do we have
-        itemsInformation: {
+        metaData: {
             startItemIndex: 0,
             endItemIndex: 0,
             totalItemsCount: 0
         }
     }
-    page = {
+    page:JBGridDataPage = {
         index: 1,
         size: 20,
         totalPages: 1,
     }
-    states = {
-        headerSection: HeaderSections.main,
+    states:JBGridConfigStates = {
+        headerSection: "MAIN",
         isFullScreen: false
     }
-    callbacks = {
+    callbacks:JBGridCallbackConfig = {
         //TODO: define standard callback for grid like onRefresh , onDataLoad ,onFullScreen , onFilteer ,....
         onPageIndexChange: null, //when grid pageIndex change
         onDataStandarding: null //when we retrive new data and let outside programmer change the data structure before it compile
 
     }
+    /**
+     * @deprecated provide it as a prop
+     */
     customComponents = {
         headerEnd: []
     }
-    captions = {
-        serverErrorText: "متاسفانه در هنگام بارگذاری اطلاعات خطایی رخ داده است"
+    i18n:JBGridi18nConfig = {
+        messages:{
+            serverErrorText: "متاسفانه در هنگام بارگذاری اطلاعات خطایی رخ داده است"
+        }
     }
 }
 export {JBGridData};
