@@ -12,15 +12,15 @@ import { useMobx } from '../../../common/hooks/useMobx';
 export {Row} from './Components/Row';
 export {Cell} from './Components/Cell';
 export type JBGridProps = {
-    searchbarConfig: any,
+    searchbarConfig?: any,
     config: any,
     bridge: JBGridBridgeClassInterface,
-    isFullscreen: boolean,
-    className: string,
-    style: React.CSSProperties,
+    isFullscreen?: boolean,
+    className?: string,
+    style?: React.CSSProperties,
     onFullscreenChange?: (isFullscreen: boolean) => void,
     title: string,
-    children: React.ReactNode
+    children?: React.ReactNode
 }
 function JBGridComponent(props: JBGridProps) {
     const vm = useMobx(JBGridViewModel, [props, props.config, props.bridge]);
@@ -40,7 +40,7 @@ function JBGridComponent(props: JBGridProps) {
             <div className={"jb-grid-wrapper " + (props.className ?? "")} ref={(dom) => vm.JBGridComponentDom = dom} style={props.style}>
                 <Header title={props.title} vm={vm} searchbarConfig={props.searchbarConfig}></Header>
                 <Content vm={vm}>{props.children}</Content>
-                <Footer isFullscreen={props.isFullscreen} vm={vm}></Footer>
+                <Footer isFullscreen={props.isFullscreen??false} vm={vm}></Footer>
             </div>
         </JBGridContext.Provider>
     );

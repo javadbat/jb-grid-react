@@ -189,7 +189,7 @@ class JBGridViewModel {
                 if (bridgeData.pageIndex == this.config.page.index) {
                     this.config.data.data = [];
                     //check user dont change page during loading time if he do we wait for latest response
-                    this.standardData(bridgeData).then((data) => {
+                    this.standardData(bridgeData).then((data:JBGridResponseData) => {
                         this.onFetchSuccess(data);
                         resolve(null);
                     });
@@ -202,7 +202,7 @@ class JBGridViewModel {
         });
         return fetchGridDataPromise;
     }
-    onFetchSuccess(data) {
+    onFetchSuccess(data:JBGridResponseData) {
         this.config.data.data = data.content;
         this.config.data.metaData.startItemIndex = data.startItemIndex;
         this.config.data.metaData.endItemIndex = data.endItemIndex;
@@ -210,7 +210,7 @@ class JBGridViewModel {
         this.config.page.totalPages = data.totalPages;
     }
     standardData(data: JBGridResponseData) {
-        return new Promise((resolve, reject) => {
+        return new Promise<JBGridResponseData>((resolve, reject) => {
             const items = data.content;
             const addedItems = items.map((item: JBGridRowData) => {
                 return Object.assign({}, item, {

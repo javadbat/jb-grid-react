@@ -28,7 +28,7 @@ function Content(props:ContentProps) {
                                 vm.config.table.columns.map((item) => {
                                     return (
                                         <div onClick={() => vm.setSortColumn(item)} key={item.name + '-' + item.id + '-' + "jb-grid-table-header"} title={item.name} className={'header-item ' + (item.sortable ? 'sortable-col' : '')}>
-                                            <div className="caption-wrapper">{item.caption}</div>
+                                            <div className="caption-wrapper">{item.title}</div>
                                             {
                                                 item.sort && (
                                                     <div className={"sort-icon-wrapper"}>

@@ -1,11 +1,10 @@
 # jb-grid-react
-import files
-```js
-import {JBGrid} from 'jb-grid-react'
-import {Cell} from 'jb-grid-react/cell'
-import {Row} from 'jb-grid-react/row'
-import JBGridData from 'jb-grid-react/data'
-```
+
+* @summary A React component for displaying a grid of items.
+* @version 1.0.2
+* @homepage https://github.com/javadbat/jb-grid-react#readme
+* @license MIT
+
 ## instructions
 
 ### install the package
@@ -14,17 +13,35 @@ npm i jb-grid
 ```
 ### import and use in your component
 ```JSX
-import {Cell, Row, JBGrid} from 'jb-grid';
+import {Cell, Row, JBGrid} from 'jb-grid-react';
 //this file is a class that impliment `JBGridBridgeClassInterface` interface to translate your server data to jbgrid data interface see Bridge section for more detail
 import {JBGridBridge} from './my-jbgrid-bridge';
 // grid config that impl JBGridConfig type see config section for more detail
-import {config} from './my-grid-config';
+import {yourConfig} from './your-grid-config-file';
 //jb-search-bar config so you can filter your data
 import {filterConfig} from './my-filter-config';
 
-<JBGrid config={config} bridge={JBGridBridge} title="user list" searchbarConfig={vm.filterConfig}></JBGrid>
+<JBGrid config={yourConfig} bridge={JBGridBridge} title="user list" searchbarConfig={vm.filterConfig}></JBGrid>
 ```
 ### config
+
+config is unique for each data table you want to show and contains information about columns,filters,sort,initData,...    
+you can create your own config from scratch using Mobx class Stores that implements `JBGridConfigInterface` or just create instance of `JBGridData` and start to config it's fields base on your need.
+
+```js
+import { JBGridData } from "jb-grid-react";
+
+const yourConfig = new JBGridData();
+```
+or in typescript: (in javascript you dont need to implements from `JBGridConfigInterface` but you have to check every detail manually to avoid errors)
+```ts
+import {JBGridConfigInterface}  from "jb-grid-react/types"
+
+class yourConfigClass implements JBGridConfigInterface{
+    //put your config here. for sample code see /lib/JBGridData in package files
+}
+export const yourConfig = new yourConfigClass();
+```
 
 ### bridge
 

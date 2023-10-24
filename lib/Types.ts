@@ -1,8 +1,6 @@
 import { FilterColumn, JBSearchbarValue } from "jb-searchbar/dist/types";
 
-export interface JBGridBridgeClassInterface {
-    new(): JBGridBridgeInterface
-}
+
 export type JBGridRowData = {
     [key: string]: any,
     jbGridDetail: {
@@ -14,6 +12,10 @@ export type JBGridRowData = {
 }
 export type JBGridResponseData = {
     pageIndex: number,
+    startItemIndex:number,
+    endItemIndex:number,
+    totalItemsCount:number,
+    totalPages:number,
     content: JBGridRowData[],
 }
 export type JBGridFilter = {
@@ -29,7 +31,12 @@ export interface JBGridBridgeInterface {
     getData: (data: any, requestBody: any) => Promise<any>,
     createRequestBody: (page: JBGridDataPage, filter: JBSearchbarValue, sortColumn: JBGridColumnDef | null, data: JBGridDataConfig)=>any
 }
+// export interface JBGridBridgeClassInterface {
+//     new(): JBGridBridgeInterface
+// }
+type ClassBuilder<I, Args extends any[] = any[]> = new(...args: Args) => I;
 
+export type JBGridBridgeClassInterface = ClassBuilder<JBGridBridgeInterface,[]>;
 //
 export type JBGridDataPage = {
     index: number,
@@ -38,10 +45,10 @@ export type JBGridDataPage = {
 }
 export type JBGridColumnDef = {
     width?: string | number,
-    sort: "ASC" | "DESC" | undefined,
-    sortable: boolean,
+    sort?: "ASC" | "DESC" | undefined,
+    sortable?: boolean,
     id: number,
-    caption: string,
+    title: string,
     name: string
 }
 export type JBGridDataConfig = {
