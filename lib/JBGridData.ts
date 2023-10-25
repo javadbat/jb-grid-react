@@ -1,7 +1,7 @@
 import { makeObservable, observable } from 'mobx';
 import { JBGridConfigStates, JBGridDataPage, JBGridTableConfig,JBGridCallbackConfig, JBGridi18nConfig, JBGridDataConfig, JBGridConfigInterface } from './Types';
 
-class JBGridData implements JBGridConfigInterface {
+class JBGridData<T> implements JBGridConfigInterface<T> {
     constructor(){
         makeObservable(this,{
             table:observable,
@@ -13,7 +13,7 @@ class JBGridData implements JBGridConfigInterface {
     table:JBGridTableConfig = {
         columns: []
     }
-    data:JBGridDataConfig = {
+    data:JBGridDataConfig<T> = {
         data: [],
         requestParams:{
             method:"GET",

@@ -3,7 +3,7 @@ import JBGridViewModel from './JBGridViewModel';
 import { JBSearchbarWebComponent } from 'jb-searchbar';
 import { observer } from 'mobx-react';
 type HeaderProps = {
-    vm: JBGridViewModel,
+    vm: JBGridViewModel<any>,
     title: string,
     searchbarConfig: any,
     headerEndComponents?: React.ReactNode[]

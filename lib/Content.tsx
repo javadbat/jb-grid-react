@@ -2,32 +2,38 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import JBGridViewModel from './JBGridViewModel';
 import JBLoading from './Components/JBLoading';
+import { JBGridColumnDef, JBGridConfig, JBGridStyles } from './Types';
 export type ContentProps = {
-    vm:JBGridViewModel,
-    children:React.ReactNode
+    children:React.ReactNode,
+    refreshBtnClick:()=>void,
+    config:JBGridConfig<any>,
+    isErrorOccurred:boolean,
+    styles:JBGridStyles,
+    isLoading:boolean,
+    setSortColumn:(column: JBGridColumnDef) => void
 }
 function Content(props:ContentProps) {
-    const {vm} = props;
+    const {refreshBtnClick,config,isErrorOccurred,styles,isLoading,setSortColumn} = props;
     return (
         <section key={'jb-grid-content'} className="jb-grid-content">
             {
-                vm.isErrorOccurred && (
+                isErrorOccurred && (
                     <div className="error-panel">
                         <div className="error-image">😬😓🤔</div>
                         <div className="error-text" style={{ padding: " 0 0 0 0" }}>すみません</div>
-                        <div className="error-text">{vm.config.i18n.messages.serverErrorText}</div>
-                        <div className="error-button"><button onClick={vm.refreshBtnClick}>تلاش مجدد</button></div>
+                        <div className="error-text">{config.i18n.messages.serverErrorText}</div>
+                        <div className="error-button"><button onClick={refreshBtnClick}>تلاش مجدد</button></div>
                     </div>
                 )}
             {
-                !vm.isErrorOccurred &&
+                !isErrorOccurred &&
                 [
                     <section className="table-header" key='table-header'>
-                        <div className="table-header-wrapper" style={{ ...vm.styles.table.generalCols, ...vm.styles.table.scrollIndent }}>
+                        <div className="table-header-wrapper" style={{ ...styles.table.generalCols, ...styles.table.scrollIndent }}>
                             {
-                                vm.config.table.columns.map((item) => {
+                                config.table.columns.map((item) => {
                                     return (
-                                        <div onClick={() => vm.setSortColumn(item)} key={item.name + '-' + item.id + '-' + "jb-grid-table-header"} title={item.name} className={'header-item ' + (item.sortable ? 'sortable-col' : '')}>
+                                        <div onClick={() => setSortColumn(item)} key={item.name + '-' + item.id + '-' + "jb-grid-table-header"} title={item.name} className={'header-item ' + (item.sortable ? 'sortable-col' : '')}>
                                             <div className="caption-wrapper">{item.title}</div>
                                             {
                                                 item.sort && (
@@ -55,7 +61,7 @@ function Content(props:ContentProps) {
             }
 
             {
-                vm.isLoading ? (
+                isLoading ? (
                     <section className="loading">
                         <div className="loading-content">
                             <JBLoading></JBLoading>

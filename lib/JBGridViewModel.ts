@@ -1,11 +1,11 @@
 import React, { createContext, useContext } from 'react';
 import { observable, extendObservable, makeObservable, action } from 'mobx';
-import { JBGridBridgeClassInterface, JBGridBridgeInterface, JBGridConfig, JBGridConfigInterface, JBGridFilter, JBGridResponseData, JBGridRowData, SearchbarConfig } from './Types';
+import { AnyObject, JBGridBridgeClassInterface, JBGridBridgeInterface, JBGridColumnDef, JBGridConfig, JBGridConfigInterface, JBGridFilter, JBGridResponseData, JBGridRowData, JBGridRowDataDetail, JBGridRowDetail, JBGridStyles, SearchbarConfig } from './Types';
 import { JBGridProps } from './JBGrid';
 import { JBSearchbarWebComponent } from 'jb-searchbar';
-class JBGridViewModel {
+class JBGridViewModel<T>{
     //we write computed style of grid here
-    styles = {
+    styles:JBGridStyles = {
         table: {
             generalCols: {
                 gridTemplateColumns: "auto",
@@ -49,8 +49,8 @@ class JBGridViewModel {
     callBacks = {
         onFullscreenChange: (_: boolean) => { console.error('you must set onFullscreenChange callback to jbgrid componnent if you want it to work'); }
     }
-    config: JBGridConfig;
-    constructor(props: JBGridProps, config: JBGridConfigInterface, bridge: JBGridBridgeClassInterface) {
+    config: JBGridConfig<T>;
+    constructor(onFullscreenChange:(isFullScreen:boolean)=>void, config: JBGridConfigInterface<T>, bridge: JBGridBridgeClassInterface) {
         makeObservable(this, {
             styles: observable,
             isLoading: observable,
@@ -83,8 +83,8 @@ class JBGridViewModel {
             console.error('JBGrid need Bridge to perform well');
         }
         this.dataBridge = new bridge();
-        if (typeof props.onFullscreenChange == "function") {
-            this.callBacks.onFullscreenChange = props.onFullscreenChange;
+        if (typeof onFullscreenChange == "function") {
+            this.callBacks.onFullscreenChange = onFullscreenChange;
         }
         this.InitGrid();
     }
@@ -96,11 +96,6 @@ class JBGridViewModel {
     onComponentDidMount(searchbarConfig) {
         this.sendFirstRequest();
         this.initFilter(searchbarConfig);
-    }
-    onComponentDidUpdate(prevProps: JBGridProps, newProps: JBGridProps) {
-        if (prevProps.isFullscreen !== newProps.isFullscreen) {
-            this.onFullscreenChanged(newProps.isFullscreen);
-        }
     }
     mergeObject(inputConfig, defaultConfig) {
         const addedProperty = {};
@@ -184,12 +179,13 @@ class JBGridViewModel {
     fetchGridData() {
         const fetchGridDataPromise = new Promise((resolve, reject) => {
             const requestBody = this.CreateRequestBody();
-            this.dataBridge.getData(this.config.data, requestBody).then((data) => {
+            this.dataBridge.getData(this.config.data.requestParams, requestBody).then((data) => {
                 const bridgeData = this.dataBridge.mapServerResponseDataToGridData(data);
                 if (bridgeData.pageIndex == this.config.page.index) {
                     this.config.data.data = [];
                     //check user dont change page during loading time if he do we wait for latest response
-                    this.standardData(bridgeData).then((data:JBGridResponseData) => {
+                    this.standardData(bridgeData.content).then((content:JBGridRowData<T>[]) => {
+                        const data = {...bridgeData,content};
                         this.onFetchSuccess(data);
                         resolve(null);
                     });
@@ -202,40 +198,40 @@ class JBGridViewModel {
         });
         return fetchGridDataPromise;
     }
-    onFetchSuccess(data:JBGridResponseData) {
+    onFetchSuccess(data:JBGridResponseData<T>) {
         this.config.data.data = data.content;
         this.config.data.metaData.startItemIndex = data.startItemIndex;
         this.config.data.metaData.endItemIndex = data.endItemIndex;
         this.config.data.metaData.totalItemsCount = data.totalItemsCount;
         this.config.page.totalPages = data.totalPages;
     }
-    standardData(data: JBGridResponseData) {
-        return new Promise<JBGridResponseData>((resolve, reject) => {
-            const items = data.content;
-            const addedItems = items.map((item: JBGridRowData) => {
-                return Object.assign({}, item, {
+    standardData(data: AnyObject[]) {
+        return new Promise<JBGridRowData<T>[]>((resolve, reject) => {
+            const items:JBGridRowData<AnyObject>[] = data.map((item) => {
+                const detail:JBGridRowDetail = {
                     jbGridDetail: {
                         isDeleting: false,
                         isDeleted: false,
                         isRecovering: false,
                         isExpanded: false
                     }
-                });
+                }
+                const row:JBGridRowData<AnyObject> = Object.assign({}, item, detail);
+                return row;
             });
-            data.content = addedItems;
             //in case of user want to modify or add custom field to our observable array
-            if (this.config.callbacks.onDataStandarding) {
-                const response = this.config.callbacks.onDataStandarding(data);
+            if (typeof this.config.callbacks.onDataStandarding == "function") {
+                const response = this.config.callbacks.onDataStandarding<T>(items);
                 if (response instanceof Promise) {
-                    response.then((data) => {
-                        resolve(data);
+                    response.then((content) => {
+                        resolve(content);
                     });
                 } else {
-                    resolve(data);
+                    resolve(response);
                 }
                 //end of callback block
             } else {
-                resolve(data);
+                resolve(items as JBGridRowData<T>[]);
             }
 
 
@@ -313,7 +309,7 @@ class JBGridViewModel {
         let inDebounce: ReturnType<typeof setTimeout>;
         const debounseInstance = (...inputs)=>{
             return new Promise((resolve, reject) => {
-                const self: JBGridViewModel = this;
+                const self: JBGridViewModel<T> = this;
                 const args = inputs;
                 clearTimeout(inDebounce);
                 inDebounce = setTimeout(
@@ -361,7 +357,7 @@ class JBGridViewModel {
         const newValue = !currentValue;
         this.callBacks.onFullscreenChange(newValue);
     }
-    onFullscreenChanged(newValue) {
+    onFullscreenChanged(newValue:boolean) {
         if (newValue == true) {
             this.fullScreenGrid();
         } else {
@@ -389,7 +385,7 @@ class JBGridViewModel {
         }
         container[0].remove();
     }
-    setSortColumn(column) {
+    setSortColumn(column:JBGridColumnDef) {
         if (column.sortable) {
             if (column.sort) {
                 //if we just change sort order 
@@ -438,5 +434,5 @@ class JBGridViewModel {
 }
 
 export default JBGridViewModel;
-export const JBGridContext = createContext<JBGridViewModel | null>(null);
+export const JBGridContext = createContext<JBGridViewModel<AnyObject> | null>(null);
 export const useJBGridVM = () => useContext(JBGridContext);

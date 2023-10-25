@@ -2,7 +2,7 @@ import { observer } from 'mobx-react';
 import React, { LegacyRef } from 'react';
 import JBGridViewModel from './JBGridViewModel';
 type FooterProps = {
-    vm:JBGridViewModel,
+    vm:JBGridViewModel<any>,
     isFullscreen:boolean
 }
 function Footer(props:FooterProps) {

@@ -4,16 +4,16 @@ import { observer } from 'mobx-react';
 import './JBGrid.scss';
 export { JBGridData } from './JBGridData';
 import 'jb-searchbar';
-import { JBGridBridgeClassInterface } from './Types';
+import { AnyObject, JBGridBridgeClassInterface, JBGridConfig } from './Types';
 import Footer from './Footer';
 import Header from './Header';
 import Content from './Content';
 import { useMobx } from '../../../common/hooks/useMobx';
-export {Row} from './Components/Row';
-export {Cell} from './Components/Cell';
-export type JBGridProps = {
+export { Row } from './Components/Row';
+export { Cell } from './Components/Cell';
+export type JBGridProps<T> = {
     searchbarConfig?: any,
-    config: any,
+    config: JBGridConfig<T>,
     bridge: JBGridBridgeClassInterface,
     isFullscreen?: boolean,
     className?: string,
@@ -22,8 +22,8 @@ export type JBGridProps = {
     title: string,
     children?: React.ReactNode
 }
-function JBGridComponent(props: JBGridProps) {
-    const vm = useMobx(JBGridViewModel, [props, props.config, props.bridge]);
+function JBGridComponent<T>(props: JBGridProps<T>) {
+    const vm = useMobx(JBGridViewModel<AnyObject>, [props, props.config, props.bridge]);
     useEffect(() => {
         vm.onComponentDidMount(props.searchbarConfig);
     }, []);
@@ -39,8 +39,8 @@ function JBGridComponent(props: JBGridProps) {
         <JBGridContext.Provider value={vm} key={"jb-grid-context"}>
             <div className={"jb-grid-wrapper " + (props.className ?? "")} ref={(dom) => vm.JBGridComponentDom = dom} style={props.style}>
                 <Header title={props.title} vm={vm} searchbarConfig={props.searchbarConfig}></Header>
-                <Content vm={vm}>{props.children}</Content>
-                <Footer isFullscreen={props.isFullscreen??false} vm={vm}></Footer>
+                <Content config={vm.config} isErrorOccurred={vm.isErrorOccurred} isLoading={vm.isLoading} refreshBtnClick={vm.refreshBtnClick} setSortColumn={vm.setSortColumn} styles={vm.styles}>{props.children}</Content>
+                <Footer isFullscreen={props.isFullscreen ?? false} vm={vm}></Footer>
             </div>
         </JBGridContext.Provider>
     );
