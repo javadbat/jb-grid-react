@@ -16,7 +16,7 @@ export type JBGridRowDataDetail = {
             isRecovering: boolean,
             isExpanded: boolean
         }
-export type JBGridRowDetail =  {jbGridDetail:JBGridRowDataDetail};
+export type JBGridRowDetail = {jbGridDetail:JBGridRowDataDetail};
 export type AnyObject = {
     [key: string]: any;
 }
@@ -39,9 +39,9 @@ export type JBGridStyles = {
     searchBar: any,
     contentWrapper: any
 }
-export type JBGridRowData<T> = T & JBGridRowDetail;
+export type JBGridRowData<T extends AnyObject> = T & JBGridRowDetail;
 
-export type JBGridResponseData<T> = {
+export type JBGridResponseData<T extends AnyObject> = {
     pageIndex: number,
     startItemIndex:number,
     endItemIndex:number,
@@ -88,7 +88,7 @@ export type JBGridConfigRequestParams = {
     //user can add any parameter needed to create request in his app
     [key: string]: any
 }
-export type JBGridDataConfig<T> = {
+export type JBGridDataConfig<T extends AnyObject> = {
     data: JBGridRowData<T>[],
     //TODO: make it as a Generic type so user can standard it in whole app
     requestParams: JBGridConfigRequestParams,
@@ -105,8 +105,8 @@ export type JBGridConfigStates = {
     headerSection: 'MAIN' | "SEARCH",
     isFullScreen: boolean
 }
-export type JBGridCallbackConfig = {
-    onDataStandarding: (<T>(data: JBGridRowData<AnyObject>[]) => JBGridRowData<T>[]) | (<T>(data: JBGridRowData<AnyObject>[]) => Promise<JBGridRowData<T>[]>) | null | undefined,
+export type JBGridCallbackConfig<T extends AnyObject> = {
+    onDataStandarding: ((data: JBGridRowData<AnyObject>[]) => JBGridRowData<T>[]) | (<T extends AnyObject>(data: JBGridRowData<AnyObject>[]) => Promise<JBGridRowData<T>[]>) | null | undefined,
     onPageIndexChange: ((newPageIndex: number) => unknown) | null | undefined
 }
 export type JBGridi18nConfig = {
@@ -114,14 +114,14 @@ export type JBGridi18nConfig = {
         serverErrorText?: string
     }
 }
-export interface JBGridConfigInterface<T> {
+export interface JBGridConfigInterface<T extends AnyObject> {
 
     table: JBGridTableConfig
     data: JBGridDataConfig<T>,
     page: JBGridDataPage,
-    callbacks: JBGridCallbackConfig,
+    callbacks: JBGridCallbackConfig<T>,
     states: JBGridConfigStates,
     i18n: JBGridi18nConfig
 
 }
-export type JBGridConfig<T> = JBGridConfigInterface<T>;
+export type JBGridConfig<T extends AnyObject> = JBGridConfigInterface<T>;

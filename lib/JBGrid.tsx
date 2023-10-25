@@ -11,7 +11,7 @@ import Content from './Content';
 import { useMobx } from '../../../common/hooks/useMobx';
 export { Row } from './Components/Row';
 export { Cell } from './Components/Cell';
-export type JBGridProps<T> = {
+export type JBGridProps<T extends AnyObject> = {
     searchbarConfig?: any,
     config: JBGridConfig<T>,
     bridge: JBGridBridgeClassInterface,
@@ -22,7 +22,7 @@ export type JBGridProps<T> = {
     title: string,
     children?: React.ReactNode
 }
-function JBGridComponent<T>(props: JBGridProps<T>) {
+function JBGridComponent<T extends AnyObject>(props: JBGridProps<T>) {
     const vm = useMobx(JBGridViewModel<AnyObject>, [props, props.config, props.bridge]);
     useEffect(() => {
         vm.onComponentDidMount(props.searchbarConfig);

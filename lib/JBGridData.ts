@@ -1,7 +1,7 @@
 import { makeObservable, observable } from 'mobx';
-import { JBGridConfigStates, JBGridDataPage, JBGridTableConfig,JBGridCallbackConfig, JBGridi18nConfig, JBGridDataConfig, JBGridConfigInterface } from './Types';
+import { JBGridConfigStates, JBGridDataPage, JBGridTableConfig,JBGridCallbackConfig, JBGridi18nConfig, JBGridDataConfig, JBGridConfigInterface, AnyObject } from './Types';
 
-class JBGridData<T> implements JBGridConfigInterface<T> {
+class JBGridData<T extends AnyObject> implements JBGridConfigInterface<T> {
     constructor(){
         makeObservable(this,{
             table:observable,

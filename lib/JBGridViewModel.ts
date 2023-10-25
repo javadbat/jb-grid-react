@@ -3,7 +3,7 @@ import { observable, extendObservable, makeObservable, action } from 'mobx';
 import { AnyObject, JBGridBridgeClassInterface, JBGridBridgeInterface, JBGridColumnDef, JBGridConfig, JBGridConfigInterface, JBGridFilter, JBGridResponseData, JBGridRowData, JBGridRowDataDetail, JBGridRowDetail, JBGridStyles, SearchbarConfig } from './Types';
 import { JBGridProps } from './JBGrid';
 import { JBSearchbarWebComponent } from 'jb-searchbar';
-class JBGridViewModel<T>{
+class JBGridViewModel<T extends AnyObject>{
     //we write computed style of grid here
     styles:JBGridStyles = {
         table: {
