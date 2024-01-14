@@ -62,7 +62,8 @@ class JBGridViewModel<T extends AnyObject>{
             fetchGridData: action,
             mergeObject: action,
             sendFirstRequest: action,
-            refreshBtnClick: action.bound
+            refreshBtnClick: action.bound,
+            setSortColumn:action.bound,
         });
         if (config == undefined || config == null) {
             //when user dont pass config prop
@@ -395,8 +396,8 @@ class JBGridViewModel<T extends AnyObject>{
                 const prevColumnSort = this.config.table.columns.find(x => x.sort);
                 if (prevColumnSort) {
                     prevColumnSort.sort = undefined;
-                    column.sort = "ASC";
                 }
+                column.sort = "ASC";
             }
             this.refreshData();
         }
