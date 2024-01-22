@@ -1,6 +1,5 @@
 import { observer } from 'mobx-react';
 import React from 'react';
-import JBGridViewModel from './JBGridViewModel';
 import JBLoading from './Components/JBLoading';
 import { JBGridColumnDef, JBGridConfig, JBGridStyles } from './Types';
 export type ContentProps = {

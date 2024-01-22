@@ -1,7 +1,7 @@
 
 
 .jb-loading{
-    $bolb-color: #f74343;
+    $bolb-color: var(--jb-grid-loading-color, #f74343) ;
     
     // Loader
     .blobs {

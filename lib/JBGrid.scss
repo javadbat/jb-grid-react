@@ -305,7 +305,7 @@ $tablet-width: 768px;
                             width: 48px;
                             display: inline-block;
                             &.current-page {
-                                color: #ef6c00;
+                                color: var(--jb-grid-page-active-color, #ef6c00);
                                 font-size: 1em;
                             }
                         }

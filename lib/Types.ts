@@ -106,7 +106,7 @@ export type JBGridConfigStates = {
     isFullScreen: boolean
 }
 export type JBGridCallbackConfig<T extends AnyObject> = {
-    onDataStandarding: ((data: JBGridRowData<AnyObject>[]) => JBGridRowData<T>[]) | (<T extends AnyObject>(data: JBGridRowData<AnyObject>[]) => Promise<JBGridRowData<T>[]>) | null | undefined,
+    onDataStandardizing: ((data: JBGridRowData<AnyObject>[]) => JBGridRowData<T>[]) | (<T extends AnyObject>(data: JBGridRowData<AnyObject>[]) => Promise<JBGridRowData<T>[]>) | null | undefined,
     onPageIndexChange: ((newPageIndex: number) => unknown) | null | undefined
 }
 export type JBGridi18nConfig = {

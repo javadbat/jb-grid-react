@@ -35,10 +35,10 @@ class JBGridData<T extends AnyObject> implements JBGridConfigInterface<T> {
         headerSection: "MAIN",
         isFullScreen: false
     }
-    callbacks:JBGridCallbackConfig = {
+    callbacks:JBGridCallbackConfig<any> = {
         //TODO: define standard callback for grid like onRefresh , onDataLoad ,onFullScreen , onFilteer ,....
         onPageIndexChange: null, //when grid pageIndex change
-        onDataStandarding: null //when we retrive new data and let outside programmer change the data structure before it compile
+        onDataStandardizing: null //when we retrive new data and let outside programmer change the data structure before it compile
 
     }
     /**

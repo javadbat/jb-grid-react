@@ -45,11 +45,14 @@ export const yourConfig = new yourConfigClass();
 
 ### bridge
 
+bridge is a js/ts class, responsible for converting jb-grid standard data to your back-end standard data and reverse.
+jb-grid doesn't send request by it self, instead it ask bridge to send request & and receive data. so you have freedom to use whatever standard and technology you may see fit. 
+
 ### filter
 
 ### show list
 
-### fullscreen grid
+### full-screen grid
 
 jb-grid has a fullscreenable feature and you can activite that by set `isFullscreen={value:bool}` for example
 
@@ -58,3 +61,8 @@ jb-grid has a fullscreenable feature and you can activite that by set `isFullscr
     <JBGrid isFullscreen={isFullscreen} onFullscreenChange={(newValue)=>setIsFullscreen(newValue)}></JBGrid>
 
 ```
+## styling
+| css variable name                          | description                                                            |
+| -------------                              | -------------                                                          |
+| --jb-grid-loading-color                    | list loading color                                                     |
+| --jb-grid-page-active-color                | color of active page                                                   |
