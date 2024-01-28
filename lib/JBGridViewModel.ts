@@ -28,7 +28,7 @@ class JBGridViewModel<T extends AnyObject>{
     }
     elements = {
         refreshIcon: React.createRef<SVGElement>(),
-        searchbar: React.createRef<any>()
+        searchbar: React.createRef<JBSearchbarWebComponent>()
     }
     //the whole component DOM store(refrenced) in this variable
     JBGridComponentDom: HTMLDivElement | null = null;
@@ -119,14 +119,14 @@ class JBGridViewModel<T extends AnyObject>{
         });
     }
     initFilter(searchbarConfig: SearchbarConfig) {
-        if (searchbarConfig) {
+        if (searchbarConfig && this.elements.searchbar.current) {
             this.elements.searchbar.current.columnList = searchbarConfig.columnList;
             this.elements.searchbar.current.searchOnChange = searchbarConfig.searchOnChange === true ? searchbarConfig.searchOnChange : false;
-            this.elements.searchbar.current.addEventListener('search', (e: CustomEvent) => {
-                this.elements.searchbar.current.isLoading = true;
+            this.elements.searchbar.current.addEventListener('search', (e) => {
+                this.elements.searchbar.current!.isLoading = true;
                 const target = e.target as JBSearchbarWebComponent;
                 this.onSearch(target.value).finally(() => {
-                    this.elements.searchbar.current.isLoading = false;
+                    this.elements.searchbar.current!.isLoading = false;
                 });
             });
             //this.elements.searchbar.current.addEventListener('');
@@ -221,8 +221,8 @@ class JBGridViewModel<T extends AnyObject>{
                 return row;
             });
             //in case of user want to modify or add custom field to our observable array
-            if (typeof this.config.callbacks.onDataStandarding == "function") {
-                const response = this.config.callbacks.onDataStandarding<T>(items);
+            if (typeof this.config.callbacks.onDataStandardizing == "function") {
+                const response = this.config.callbacks.onDataStandardizing<T>(items);
                 if (response instanceof Promise) {
                     response.then((content) => {
                         resolve(content);
@@ -411,14 +411,14 @@ class JBGridViewModel<T extends AnyObject>{
         }
     }
     openSearchHeaderSection() {
-        this.elements.searchbar.current.focus();
+        this.elements.searchbar.current?.focus();
         this.config.states.headerSection = "SEARCH";
     }
     openMainHeaderSection() {
         this.config.states.headerSection = "MAIN";
     }
     showErrorPanel() {
-        //when we couldnt connect to server or get error from server for our request we show error panel to user
+        //when we couldn't connect to server or get error from server for our request we show error panel to user
         this.isErrorOccurred = true;
     }
     hideErrorPanel() {

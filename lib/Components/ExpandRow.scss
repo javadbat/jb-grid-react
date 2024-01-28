@@ -2,15 +2,32 @@
 .jb-grid-wrapper .jb-grid-content{
     .jb-grid-expand-row{
         width: 100%;
-        min-height: 64px;
-        padding: 5px 10px;
+        min-height: 4rem;
+        padding-block: 1rem;
+        padding-inline: 2rem;
         border-bottom: 1px solid #ebebeb;
-        //TODO: change this to nth-child(even of .jb-grid-expand-row) when supported in future
-        &:nth-of-type(even) {
+        overflow: auto;
+        //TODO: change this to nth-child(even of .jb-grid-expand-row) when supported in future. Done:) i just comment it for test
+        // &:nth-of-type(even) {
+        //     background: #f9f9f9;
+        // }
+        &:nth-child(even of .jb-grid-expand-row){
             background: #f9f9f9;
         }
+        transition: all 500ms 0s linear;
+        max-height: 100%;
         &.--hidden{
-            display: none;
+            max-height: 0;
+            padding-block: 0;
+            min-height: 0;
+        }
+
+        .expand-row-content{
+            transition: all 500ms 0s ease;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+            &.--hidden{
+                clip-path: polygon(0 0, 100% 0, 100% 0%, 0% 0%);
+            }
         }
     }
 }

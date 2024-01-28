@@ -14,7 +14,7 @@ npm i jb-grid
 ### import and use in your component
 ```JSX
 import {Cell, Row, JBGrid} from 'jb-grid-react';
-//this file is a class that impliment `JBGridBridgeClassInterface` interface to translate your server data to jbgrid data interface see Bridge section for more detail
+//this file is a class that implement `JBGridBridgeClassInterface` interface to translate your server data to jb-grid data interface see Bridge section for more detail
 import {JBGridBridge} from './my-jbgrid-bridge';
 // grid config that impl JBGridConfig type see config section for more detail
 import {yourConfig} from './your-grid-config-file';
@@ -33,7 +33,7 @@ import { JBGridData } from "jb-grid-react";
 
 const yourConfig = new JBGridData();
 ```
-or in typescript: (in javascript you dont need to implements from `JBGridConfigInterface` but you have to check every detail manually to avoid errors)
+or in typescript: (in javascript you don't need to implements from `JBGridConfigInterface` but you have to check every detail manually to avoid errors)
 ```ts
 import {JBGridConfigInterface}  from "jb-grid-react/types"
 
@@ -59,6 +59,33 @@ jb-grid has a fullscreenable feature and you can activite that by set `isFullscr
 ```jsx
     const [isFullscreen,setIsFullscreen] = useState(false);
     <JBGrid isFullscreen={isFullscreen} onFullscreenChange={(newValue)=>setIsFullscreen(newValue)}></JBGrid>
+
+```
+### expandable row
+you can add expandable row so user can expand row to see more info about a row in detail
+
+```jsx
+<JBGrid config={jbGridConfig} bridge={JBGridBridge} title="general list" searchbarConfig={filterConfig}>
+    {
+        jbGridConfig.data.data.map(
+            (item) => {
+                return (
+                    <React.Fragment key={item.id}>
+                        <Row>
+                            <Cell>{item.name}</Cell>
+                            <Cell>{item.age}</Cell>
+                            <Cell><button onClick={()=>{item.jbGridDetail.isExpanded = !item.jbGridDetail.isExpanded;}}>detail</button></Cell>
+                        </Row>
+                        <ExpandRow show={item.jbGridDetail.isExpanded}>
+                            <YourExpandedData></YourExpandedData>
+                        </ExpandRow>
+                    </React.Fragment>
+
+                );
+            }
+        )
+    }
+</JBGrid>
 
 ```
 ## styling

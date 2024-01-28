@@ -1,4 +1,4 @@
-import React, { useEffect, createContext } from 'react';
+import React, { useEffect } from 'react';
 import JBGridViewModel, { JBGridContext } from './JBGridViewModel';
 import { observer } from 'mobx-react';
 import './JBGrid.scss';
@@ -11,6 +11,8 @@ import Content from './Content';
 import { useMobx } from '../../../common/hooks/useMobx';
 export { Row } from './Components/Row';
 export { Cell } from './Components/Cell';
+export { ExpandRow } from './Components/ExpandRow';
+
 export type JBGridProps<T extends AnyObject> = {
     searchbarConfig?: any,
     config: JBGridConfig<T>,
