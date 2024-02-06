@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import './JBGrid.scss';
 export { JBGridData } from './JBGridData';
 import 'jb-searchbar';
-import { AnyObject, JBGridBridgeClassInterface, JBGridConfig } from './Types';
+import { AnyObject, JBGridBridgeClassInterface, JBGridConfig, SearchbarConfig } from './Types';
 import Footer from './Footer';
 import Header from './Header';
 import Content from './Content';
@@ -14,7 +14,7 @@ export { Cell } from './Components/Cell';
 export { ExpandRow } from './Components/ExpandRow';
 
 export type JBGridProps<T extends AnyObject> = {
-    searchbarConfig?: any,
+    searchbarConfig: SearchbarConfig | null | undefined,
     config: JBGridConfig<T>,
     bridge: JBGridBridgeClassInterface,
     isFullscreen?: boolean,
@@ -22,12 +22,12 @@ export type JBGridProps<T extends AnyObject> = {
     style?: React.CSSProperties,
     onFullscreenChange?: (isFullscreen: boolean) => void,
     title: string,
-    children?: React.ReactNode
+    children?: React.ReactNode | React.ReactNode[]
 }
 function JBGridComponent<T extends AnyObject>(props: JBGridProps<T>) {
     const vm = useMobx(JBGridViewModel<AnyObject>, [props, props.config, props.bridge]);
     useEffect(() => {
-        vm.onComponentDidMount(props.searchbarConfig);
+        vm.onComponentDidMount(props.searchbarConfig || null);
     }, []);
     useEffect(() => {
         if (props.isFullscreen !== null && props.isFullscreen !== undefined) {

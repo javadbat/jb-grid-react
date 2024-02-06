@@ -1,8 +1,9 @@
 import React, { createContext, useContext } from 'react';
 import { observable, extendObservable, makeObservable, action } from 'mobx';
-import { AnyObject, JBGridBridgeClassInterface, JBGridBridgeInterface, JBGridColumnDef, JBGridConfig, JBGridConfigInterface, JBGridFilter, JBGridResponseData, JBGridRowData, JBGridRowDataDetail, JBGridRowDetail, JBGridStyles, SearchbarConfig } from './Types';
-import { JBGridProps } from './JBGrid';
+import { AnyObject, JBGridBridgeClassInterface, JBGridBridgeInterface, JBGridCallbacks, JBGridColumnDef, JBGridConfig, JBGridConfigInterface, JBGridFilter, JBGridResponseData, JBGridRowData, JBGridRowDetail, JBGridStyles, SearchbarConfig } from './Types';
 import { JBSearchbarWebComponent } from 'jb-searchbar';
+import { i18nMessages } from './i18n';
+import { JBSearchbarValue } from 'jb-searchbar/dist/types';
 class JBGridViewModel<T extends AnyObject>{
     //we write computed style of grid here
     styles:JBGridStyles = {
@@ -30,7 +31,7 @@ class JBGridViewModel<T extends AnyObject>{
         refreshIcon: React.createRef<SVGElement>(),
         searchbar: React.createRef<JBSearchbarWebComponent>()
     }
-    //the whole component DOM store(refrenced) in this variable
+    //the whole component DOM store(referenced) in this variable
     JBGridComponentDom: HTMLDivElement | null = null;
     //keep wrapper DOM element for some pupose like wrapper changing in full screen functionality
     gridWrapperElement: HTMLElement | null = null;
@@ -38,16 +39,16 @@ class JBGridViewModel<T extends AnyObject>{
     isLoading = false;
     //define bridge to convert grid data to server compatible data and convert server data to grid understandable format
     dataBridge: JBGridBridgeInterface;
-    //add debounse feature to grid gotopage function
-    paganitionDebounce;
+    //add debounce feature to grid gotoPage function
+    paginationDebounce;
     //keep grid searchbar height so on height 
     isErrorOccurred = false;
     filter: JBGridFilter = {
         config: null,
         value: []
     }
-    callBacks = {
-        onFullscreenChange: (_: boolean) => { console.error('you must set onFullscreenChange callback to jbgrid componnent if you want it to work'); }
+    callBacks:JBGridCallbacks = {
+        onFullscreenChange: () => { console.error('you must set onFullscreenChange callback to jb-grid component if you want it to work'); }
     }
     config: JBGridConfig<T>;
     constructor(onFullscreenChange:(isFullScreen:boolean)=>void, config: JBGridConfigInterface<T>, bridge: JBGridBridgeClassInterface) {
@@ -70,9 +71,9 @@ class JBGridViewModel<T extends AnyObject>{
             console.error("JBGrid need you to pass config as a prop to it \n and currently its null or undefined");
         }
         const observableConfig = observable(config);
-        this.paganitionDebounce = this.debounce(this.refreshData, 300);
+        this.paginationDebounce = this.debounce(this.refreshData, 300);
 
-        //TODO:add trigger function so user can call grif functions out side of grid js file
+        //TODO:add trigger function so user can call grid functions out side of grid js file
         const triggers = {
             refreshData: () => this.refreshData(),
             fullScreenGrid: () => this.fullScreenGrid(),
@@ -94,11 +95,11 @@ class JBGridViewModel<T extends AnyObject>{
         this.InitSize();
 
     }
-    onComponentDidMount(searchbarConfig) {
+    onComponentDidMount(searchbarConfig:SearchbarConfig | null) {
         this.sendFirstRequest();
         this.initFilter(searchbarConfig);
     }
-    mergeObject(inputConfig, defaultConfig) {
+    mergeObject(inputConfig:JBGridConfig<any>, defaultConfig:JBGridConfig<any>) {
         const addedProperty = {};
         for (const prop in defaultConfig) {
             if (inputConfig[prop] == undefined || inputConfig[prop] == null) {
@@ -118,7 +119,7 @@ class JBGridViewModel<T extends AnyObject>{
             this.showErrorPanel();
         });
     }
-    initFilter(searchbarConfig: SearchbarConfig) {
+    initFilter(searchbarConfig: SearchbarConfig | null) {
         if (searchbarConfig && this.elements.searchbar.current) {
             this.elements.searchbar.current.columnList = searchbarConfig.columnList;
             this.elements.searchbar.current.searchOnChange = searchbarConfig.searchOnChange === true ? searchbarConfig.searchOnChange : false;
@@ -140,7 +141,7 @@ class JBGridViewModel<T extends AnyObject>{
         this.styles.table.scrollIndent.width = 'calc(100% - ' + scrollWidth + 'px)';
         //config css grid for table layout
         let gridTemplateColumns = "";
-        this.config.table.columns.map((item, index) => {
+        this.config.table.columns.map((item) => {
             if (item.width != null || item.width != undefined) {
                 if (typeof (item.width) == "number") {
                     gridTemplateColumns += ' ' + item.width + 'px';
@@ -165,14 +166,14 @@ class JBGridViewModel<T extends AnyObject>{
         // force scrollbars
         outer.style.overflow = "scroll";
 
-        // add innerdiv
+        // add inner div
         const inner = document.createElement("div");
         inner.style.width = "100%";
         outer.appendChild(inner);
 
         const widthWithScroll = inner.offsetWidth;
 
-        // remove divs
+        // remove div's
         outer.parentNode?.removeChild(outer);
 
         return widthNoScroll - widthWithScroll;
@@ -184,14 +185,14 @@ class JBGridViewModel<T extends AnyObject>{
                 const bridgeData = this.dataBridge.mapServerResponseDataToGridData(data);
                 if (bridgeData.pageIndex == this.config.page.index) {
                     this.config.data.data = [];
-                    //check user dont change page during loading time if he do we wait for latest response
-                    this.standardData(bridgeData.content).then((content:JBGridRowData<T>[]) => {
+                    //check user don't change page during loading time if he do we wait for latest response
+                    this.#standardData(bridgeData.content).then((content:JBGridRowData<T>[]) => {
                         const data = {...bridgeData,content};
                         this.onFetchSuccess(data);
                         resolve(null);
                     });
                 } else {
-                    console.error('jbgrid requested page index is different from response page index it maybe a bridge problem or server data problem');
+                    console.error('jb-grid requested page index is different from response page index it maybe a bridge problem or server data problem');
                 }
             }).catch((err) => {
                 reject(err);
@@ -206,8 +207,8 @@ class JBGridViewModel<T extends AnyObject>{
         this.config.data.metaData.totalItemsCount = data.totalItemsCount;
         this.config.page.totalPages = data.totalPages;
     }
-    standardData(data: AnyObject[]) {
-        return new Promise<JBGridRowData<T>[]>((resolve, reject) => {
+    #standardData(data: AnyObject[]) {
+        return new Promise<JBGridRowData<T>[]>((resolve) => {
             const items:JBGridRowData<AnyObject>[] = data.map((item) => {
                 const detail:JBGridRowDetail = {
                     jbGridDetail: {
@@ -290,38 +291,38 @@ class JBGridViewModel<T extends AnyObject>{
     stopRefreshBtnAnimation(anime: Animation) {
         anime.cancel();
     }
-    goToPage(destinitionPageIndex: number) {
+    goToPage(destinationPageIndex: number) {
         return new Promise((resolve, reject) => {
             //for navigate in pages you must call this function and every other way is forbidden
-            this.config.page.index = destinitionPageIndex;
-            this.paganitionDebounce()
+            this.config.page.index = destinationPageIndex;
+            this.paginationDebounce()
                 .then(() => {
                     resolve(null);
                     if (this.config.callbacks.onPageIndexChange) {
-                        this.config.callbacks.onPageIndexChange(destinitionPageIndex);
+                        this.config.callbacks.onPageIndexChange(destinationPageIndex);
                     }
                 }).catch((e) => {
                     reject(e);
                 });
         });
     }
-    debounce(func: any, delay: number) {
+    debounce(func: (...args : any[])=>any, delay: number) {
         //create a waiting time for serial function call and execute last function execute request
         let inDebounce: ReturnType<typeof setTimeout>;
-        const debounseInstance = (...inputs)=>{
+        const debounceInstance = (...inputs:any[])=>{
             return new Promise((resolve, reject) => {
                 const self: JBGridViewModel<T> = this;
                 const args = inputs;
                 clearTimeout(inDebounce);
                 inDebounce = setTimeout(
                     () => func.apply(self, args)
-                        .then((args) => {
+                        .then((args:any) => {
                             resolve(args);
-                        }).catch((e) => { reject(e); })
+                        }).catch((e:Error) => { reject(e); })
                     , delay);
             });
         };
-        return debounseInstance;
+        return debounceInstance;
     }
     refreshData() {
         const refreshDataPromise = new Promise((resolve, reject) => {
@@ -339,9 +340,10 @@ class JBGridViewModel<T extends AnyObject>{
         //every time we need to change showing data we must call this func
         return refreshDataPromise;
     }
-    onSearch(filterList) {
+    onSearch(filterList:JBSearchbarValue) {
         this.filter.value = filterList;
         const onSearchPromise = new Promise((resolve, reject) => {
+            //reset pagination when filter change
             this.goToPage(1).then(() => {
                 resolve(null);
             }).catch((e) => {
@@ -405,7 +407,7 @@ class JBGridViewModel<T extends AnyObject>{
     changePageNumberToInput() {
         //when user click on page number
         //TODO: change page Input method to text input
-        const pageNumber: string | null = prompt("شماره صفحه ای که میخواهید وارد آن شوید را وارد کنید", this.config.page.totalPages.toString());
+        const pageNumber: string | null = prompt(i18nMessages.EnterPageNumberMessage, this.config.page.totalPages.toString());
         if (pageNumber && parseInt(pageNumber) > 0 && parseInt(pageNumber) < this.config.page.totalPages) {
             this.goToPage(parseInt(pageNumber));
         }

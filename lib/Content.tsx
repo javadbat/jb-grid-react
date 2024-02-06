@@ -3,7 +3,7 @@ import React from 'react';
 import JBLoading from './Components/JBLoading';
 import { JBGridColumnDef, JBGridConfig, JBGridStyles } from './Types';
 export type ContentProps = {
-    children:React.ReactNode,
+    children:React.ReactNode | React.ReactNode[],
     refreshBtnClick:()=>void,
     config:JBGridConfig<any>,
     isErrorOccurred:boolean,

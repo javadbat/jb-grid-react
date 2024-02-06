@@ -125,3 +125,7 @@ export interface JBGridConfigInterface<T extends AnyObject> {
 
 }
 export type JBGridConfig<T extends AnyObject> = JBGridConfigInterface<T>;
+
+export type JBGridCallbacks = {
+    onFullscreenChange:(isFullscreen:boolean)=>void
+}
