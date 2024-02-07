@@ -54,7 +54,7 @@ jb-grid doesn't send request by it self, instead it ask bridge to send request &
 
 ### full-screen grid
 
-jb-grid has a fullscreenable feature and you can activite that by set `isFullscreen={value:bool}` for example
+jb-grid has a fullscreen feature which you can activate by setting `isFullscreen={value:bool}` for example
 
 ```jsx
     const [isFullscreen,setIsFullscreen] = useState(false);
