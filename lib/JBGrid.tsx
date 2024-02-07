@@ -14,7 +14,7 @@ export { Cell } from './Components/Cell';
 export { ExpandRow } from './Components/ExpandRow';
 
 export type JBGridProps<T extends AnyObject> = {
-    searchbarConfig: SearchbarConfig | null | undefined,
+    searchbarConfig?: SearchbarConfig | null | undefined,
     config: JBGridConfig<T>,
     bridge: JBGridBridgeClassInterface,
     isFullscreen?: boolean,
