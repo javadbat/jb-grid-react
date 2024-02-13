@@ -12,7 +12,7 @@ function Footer(props:FooterProps) {
             <section className="btn-wrapper-section">
                 {
                     isFullscreen !== null && isFullscreen !== undefined && (
-                        <div className="btn" onClick={() => vm.onFullScreenBtnClicked(isFullscreen)}>
+                        <div className="btn full-screen-button" onClick={() => vm.onFullScreenBtnClicked(isFullscreen)}>
                             <svg xmlns="http://www.w3.org/2000/svg" version="1.0" x="0px" y="0px" viewBox="0 0 128 128" className={isFullscreen ? 'exit-full-screen-svg' : 'full-screen-svg'}>
                                 <g className="arrow" transform={!isFullscreen ? '' : "translate(0, 0) rotate(180 30 30)"}>
                                     <path d="M47.979,41.795L26.466,20.292c-3.995-6.034,6.546-6.069,6.546-6.069h6.385c4.054-0.105,6.282-2.363,6.24-5.229   c-0.041-2.866-1.591-5.216-5.167-5.151H23.679C-0.4,2.575,0.342,20.363,0.755,24.486c0.02,0.208-0.015,0.375,0,0.502v0.025   l0.011,15.21c-0.029,2.556,1.211,5.834,4.501,6.265c3.329,0.434,6.025-2.22,6.06-4.774v-9.788v0.084   c-0.062-7.879,5.311-3.858,5.311-3.858l23.346,22.95c1.842,1.843,6.8,3.308,9.362,0.711C53.583,47.516,49.821,43.637,47.979,41.795   z"></path>

@@ -229,10 +229,13 @@ $tablet-width: 768px;
         border-bottom-left-radius: 16px;
         border-bottom-right-radius: 16px;
         justify-content: space-between;
+        container-type: size;
+        overflow: hidden;
         .page-section {
             display: flex;
             align-items: center;
             justify-content: flex-start;
+
             .page-size-section {
                 padding: 0 16px;
                 float: left;
@@ -241,6 +244,9 @@ $tablet-width: 768px;
                 color: #7b7b7b;
                 font-size: 16px;
                 display: flex;
+                @container (max-width: 580px) {
+                    display:none;
+                }
                 .page-size-select {
                     background-color: transparent;
                     font-family: inherit;
@@ -256,6 +262,9 @@ $tablet-width: 768px;
                 height: 100%;
                 color: #7b7b7b;
                 font-size: 16px;
+                @container (max-width: 500px) {
+                    display:none;
+                }
             }
             .navigation-section {
                 float: left;
@@ -296,6 +305,7 @@ $tablet-width: 768px;
                             position: relative;
                             margin: 0 -50%;
                             white-space: nowrap;
+                            
                         }
                         .number-btn {
                             color: rgb(180, 180, 180);
@@ -307,6 +317,12 @@ $tablet-width: 768px;
                             &.current-page {
                                 color: var(--jb-grid-page-active-color, #ef6c00);
                                 font-size: 1em;
+                            }
+                            /* If the jb-grid-footer is smaller than 560px */
+                            @container (max-width: 620px) {
+                                &:not(.current-page){
+                                    display:none;
+                                }
                             }
                         }
                     }
@@ -331,6 +347,11 @@ $tablet-width: 768px;
         justify-content: center;
         &.refresh-btn {
             transform: rotate(-146deg);
+        }
+        &.full-screen-button{
+            @container (max-width: 360px) {
+                display: none;
+            }
         }
         svg {
             height: 24px;
