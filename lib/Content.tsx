@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react';
 import React from 'react';
 import JBLoading from './Components/JBLoading';
-import { JBGridColumnDef, JBGridConfig, JBGridStyles } from './Types';
+import { JBGridColumnDef, JBGridConfig, JBGridI18nConfig, JBGridStyles } from './Types';
 export type ContentProps = {
     children:React.ReactNode | React.ReactNode[],
     refreshBtnClick:()=>void,
@@ -9,10 +9,11 @@ export type ContentProps = {
     isErrorOccurred:boolean,
     styles:JBGridStyles,
     isLoading:boolean,
-    setSortColumn:(column: JBGridColumnDef) => void
+    setSortColumn:(column: JBGridColumnDef) => void,
+    i18n:JBGridI18nConfig,
 }
 function Content(props:ContentProps) {
-    const {refreshBtnClick,config,isErrorOccurred,styles,isLoading,setSortColumn} = props;
+    const {refreshBtnClick,config,isErrorOccurred,styles,isLoading,setSortColumn,i18n} = props;
     return (
         <section key={'jb-grid-content'} className="jb-grid-content">
             {
@@ -20,7 +21,7 @@ function Content(props:ContentProps) {
                     <div className="error-panel">
                         <div className="error-image">😬😓🤔</div>
                         <div className="error-text" style={{ padding: " 0 0 0 0" }}>すみません</div>
-                        <div className="error-text">{config.i18n.messages.serverErrorText}</div>
+                        <div className="error-text">{i18n.messages.serverErrorText}</div>
                         <div className="error-button"><button onClick={refreshBtnClick}>تلاش مجدد</button></div>
                     </div>
                 )}

@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import './JBGrid.scss';
 export { JBGridData } from './JBGridData';
 import 'jb-searchbar';
-import { AnyObject, JBGridBridgeClassInterface, JBGridConfig, SearchbarConfig } from './Types';
+import { AnyObject, JBGridBridgeClassInterface, JBGridConfig, JBGridI18nConfig, SearchbarConfig } from './Types';
 import Footer from './Footer';
 import Header from './Header';
 import Content from './Content';
@@ -22,10 +22,11 @@ export type JBGridProps<T extends AnyObject> = {
     style?: React.CSSProperties,
     onFullscreenChange?: (isFullscreen: boolean) => void,
     title: string,
+    i18n?:JBGridI18nConfig | null | undefined,
     children?: React.ReactNode | React.ReactNode[]
 }
 function JBGridComponent<T extends AnyObject>(props: JBGridProps<T>) {
-    const vm = useMobx(JBGridViewModel<AnyObject>, [props, props.config, props.bridge]);
+    const vm = useMobx(JBGridViewModel<AnyObject>, [props, props.config, props.bridge, props.i18n]);
     useEffect(() => {
         vm.onComponentDidMount(props.searchbarConfig || null);
     }, []);
@@ -41,7 +42,7 @@ function JBGridComponent<T extends AnyObject>(props: JBGridProps<T>) {
         <JBGridContext.Provider value={vm} key={"jb-grid-context"}>
             <div className={"jb-grid-wrapper " + (props.className ?? "")} ref={(dom) => vm.JBGridComponentDom = dom} style={props.style}>
                 <Header title={props.title} vm={vm} searchbarConfig={props.searchbarConfig}></Header>
-                <Content config={vm.config} isErrorOccurred={vm.isErrorOccurred} isLoading={vm.isLoading} refreshBtnClick={vm.refreshBtnClick} setSortColumn={vm.setSortColumn} styles={vm.styles}>{props.children}</Content>
+                <Content i18n={vm.i18n} config={vm.config} isErrorOccurred={vm.isErrorOccurred} isLoading={vm.isLoading} refreshBtnClick={vm.refreshBtnClick} setSortColumn={vm.setSortColumn} styles={vm.styles}>{props.children}</Content>
                 <Footer isFullscreen={props.isFullscreen ?? false} vm={vm}></Footer>
             </div>
         </JBGridContext.Provider>

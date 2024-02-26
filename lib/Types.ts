@@ -109,23 +109,27 @@ export type JBGridCallbackConfig<T extends AnyObject> = {
     onDataStandardizing: ((data: JBGridRowData<AnyObject>[]) => JBGridRowData<T>[]) | (<T extends AnyObject>(data: JBGridRowData<AnyObject>[]) => Promise<JBGridRowData<T>[]>) | null | undefined,
     onPageIndexChange: ((newPageIndex: number) => unknown) | null | undefined
 }
-export type JBGridi18nConfig = {
+export type JBGridI18nConfig = {
     messages: {
-        serverErrorText?: string
+        serverErrorText?: string,
+        EnterPageNumberMessage?:string,
     }
 }
+export type ActionDispatchers = Readonly<{
+    refreshData: () => Promise<void>,
+    fullScreenGrid: () => void,
+    exitFullScreenGrid: () => void
+}>
 export interface JBGridConfigInterface<T extends AnyObject> {
 
     table: JBGridTableConfig
     data: JBGridDataConfig<T>,
     page: JBGridDataPage,
     callbacks: JBGridCallbackConfig<T>,
+    actionDispatchers?: ActionDispatchers,
     states: JBGridConfigStates,
-    i18n: JBGridi18nConfig
-
 }
 export type JBGridConfig<T extends AnyObject> = JBGridConfigInterface<T>;
-
 export type JBGridCallbacks = {
     onFullscreenChange:(isFullscreen:boolean)=>void
 }

@@ -1,5 +1,5 @@
 import { makeObservable, observable } from 'mobx';
-import { JBGridConfigStates, JBGridDataPage, JBGridTableConfig,JBGridCallbackConfig, JBGridi18nConfig, JBGridDataConfig, JBGridConfigInterface, AnyObject } from './Types';
+import { JBGridConfigStates, JBGridDataPage, JBGridTableConfig,JBGridCallbackConfig, JBGridI18nConfig, JBGridDataConfig, JBGridConfigInterface, AnyObject } from './Types';
 
 class JBGridData<T extends AnyObject> implements JBGridConfigInterface<T> {
     constructor(){
@@ -36,7 +36,7 @@ class JBGridData<T extends AnyObject> implements JBGridConfigInterface<T> {
         isFullScreen: false
     }
     callbacks:JBGridCallbackConfig<any> = {
-        //TODO: define standard callback for grid like onRefresh , onDataLoad ,onFullScreen , onFilteer ,....
+        //TODO: define standard callback for grid like onRefresh , onDataLoad ,onFullScreen , onFilter ,....
         onPageIndexChange: null, //when grid pageIndex change
         onDataStandardizing: null //when we retrive new data and let outside programmer change the data structure before it compile
 
@@ -46,11 +46,6 @@ class JBGridData<T extends AnyObject> implements JBGridConfigInterface<T> {
      */
     customComponents = {
         headerEnd: []
-    }
-    i18n:JBGridi18nConfig = {
-        messages:{
-            serverErrorText: "متاسفانه در هنگام بارگذاری اطلاعات خطایی رخ داده است"
-        }
     }
 }
 export {JBGridData};

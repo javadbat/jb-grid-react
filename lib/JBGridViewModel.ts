@@ -1,8 +1,8 @@
 import React, { createContext, useContext } from 'react';
 import { observable, extendObservable, makeObservable, action } from 'mobx';
-import { AnyObject, JBGridBridgeClassInterface, JBGridBridgeInterface, JBGridCallbacks, JBGridColumnDef, JBGridConfig, JBGridConfigInterface, JBGridFilter, JBGridResponseData, JBGridRowData, JBGridRowDetail, JBGridStyles, SearchbarConfig } from './Types';
+import { ActionDispatchers, AnyObject, JBGridBridgeClassInterface, JBGridBridgeInterface, JBGridCallbacks, JBGridColumnDef, JBGridConfig, JBGridConfigInterface, JBGridFilter, JBGridI18nConfig, JBGridResponseData, JBGridRowData, JBGridRowDetail, JBGridStyles, SearchbarConfig } from './Types';
 import { JBSearchbarWebComponent } from 'jb-searchbar';
-import { i18nMessages } from './i18n';
+import { defaultI18n } from './i18n';
 import { JBSearchbarValue } from 'jb-searchbar/dist/types';
 class JBGridViewModel<T extends AnyObject>{
     //we write computed style of grid here
@@ -51,7 +51,8 @@ class JBGridViewModel<T extends AnyObject>{
         onFullscreenChange: () => { console.error('you must set onFullscreenChange callback to jb-grid component if you want it to work'); }
     }
     config: JBGridConfig<T>;
-    constructor(onFullscreenChange:(isFullScreen:boolean)=>void, config: JBGridConfigInterface<T>, bridge: JBGridBridgeClassInterface) {
+    i18n:JBGridI18nConfig;
+    constructor(onFullscreenChange:(isFullScreen:boolean)=>void, config: JBGridConfigInterface<T>, bridge: JBGridBridgeClassInterface, i18n:JBGridI18nConfig) {
         makeObservable(this, {
             styles: observable,
             isLoading: observable,
@@ -71,15 +72,17 @@ class JBGridViewModel<T extends AnyObject>{
             console.error("JBGrid need you to pass config as a prop to it \n and currently its null or undefined");
         }
         const observableConfig = observable(config);
+        this.i18n = i18n || defaultI18n;
         this.paginationDebounce = this.debounce(this.refreshData, 300);
 
-        //TODO:add trigger function so user can call grid functions out side of grid js file
-        const triggers = {
+        //TODO:add trigger function so user can call grid functions outside of grid js file
+        const actionDispatchers:ActionDispatchers = Object.freeze({
             refreshData: () => this.refreshData(),
             fullScreenGrid: () => this.fullScreenGrid(),
             exitFullScreenGrid: () => this.exitFullScreenGrid()
-        };
+        });
         this.config = observableConfig;
+        this.config.actionDispatchers = actionDispatchers;
         if (typeof bridge != 'function') {
             //TODO: remove this line
             console.error('JBGrid need Bridge to perform well');
@@ -324,13 +327,13 @@ class JBGridViewModel<T extends AnyObject>{
         };
         return debounceInstance;
     }
-    refreshData() {
-        const refreshDataPromise = new Promise((resolve, reject) => {
+    refreshData():Promise<void>{
+        const refreshDataPromise = new Promise<void>((resolve, reject) => {
             this.isLoading = true;
             this.fetchGridData().then(() => {
                 this.isLoading = false;
                 this.hideErrorPanel();
-                resolve(null);
+                resolve();
             }).catch((e) => {
                 this.isLoading = false;
                 this.showErrorPanel();
@@ -407,7 +410,7 @@ class JBGridViewModel<T extends AnyObject>{
     changePageNumberToInput() {
         //when user click on page number
         //TODO: change page Input method to text input
-        const pageNumber: string | null = prompt(i18nMessages.EnterPageNumberMessage, this.config.page.totalPages.toString());
+        const pageNumber: string | null = prompt(this.i18n.messages.EnterPageNumberMessage, this.config.page.totalPages.toString());
         if (pageNumber && parseInt(pageNumber) > 0 && parseInt(pageNumber) < this.config.page.totalPages) {
             this.goToPage(parseInt(pageNumber));
         }
