@@ -112,6 +112,8 @@ export type JBGridCallbackConfig<T extends AnyObject> = {
 export type JBGridI18nConfig = {
     messages: {
         serverErrorText?: string,
+        serverErrorTitle?:string,
+        serverErrorRefreshButtonTitle?:string,
         EnterPageNumberMessage?:string,
     }
 }

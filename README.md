@@ -119,6 +119,13 @@ the reason that we separate config & bridge is most of the time all tables of yo
 
 ### show list
 
+### custom error page
+
+if you want to show customized error page instead of default one use `contentError` prop
+```jsx
+<JBGrid contentError={<CustomErrorComponent />}></JBGrid>
+```
+
 ### full-screen grid
 
 jb-grid has a fullscreenable feature and you can activate that by set `isFullscreen={value:bool}` for example
