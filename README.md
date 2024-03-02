@@ -94,6 +94,21 @@ to config backend service call config you can set `` like this:
         yourConfig.data.requestParams.custom1 = {aa:""};
         yourConfig.data.requestParams.foo = "x";
 ```
+### actions
+
+there is some actions you may want to call inside a grid for example you need to refresh data by code after some entity insert/update or fullscreen grid by code. for doing so you just have to call `actionDispatchers` methods in your grid config after initialization process (after render of jb-grid finish grid will automatically extend your config and add this methods).
+```typescript
+//action dispatcher type in typescript:
+type ActionDispatchers = Readonly<{
+    refreshData: () => Promise<void>,
+    fullScreenGrid: () => void,
+    exitFullScreenGrid: () => void
+}>
+// the call function:
+    yourConfig.actionDispatchers.refreshData();
+// 
+```
+
 ### bridge
 
 bridge is a js/ts class, responsible for converting jb-grid standard data to your back-end standard data and reverse.
