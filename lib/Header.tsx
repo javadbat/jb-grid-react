@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import JBGridViewModel from './JBGridViewModel';
 import { JBSearchbarWebComponent } from 'jb-searchbar';
 import { observer } from 'mobx-react';
@@ -6,7 +6,7 @@ type HeaderProps = {
     vm: JBGridViewModel<any>,
     title: string,
     searchbarConfig: any,
-    headerEndComponents?: React.ReactNode[]
+    headerEndComponents?: React.ReactNode[] | ReactNode
 }
 declare global {
     // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -27,9 +27,14 @@ function Header(props: HeaderProps) {
                 <section className="jb-grid-title">{props.title}</section>
                 <section className="button-container">
                     {
+                        Array.isArray(props.headerEndComponents) &&
                         props.headerEndComponents?.map((component, index) => {
                             return (<div key={index} className="custom-component-wrapper-header-end">{component}</div>);
                         })
+                    }
+                    {
+                        !Array.isArray(props.headerEndComponents) &&
+                        <div className="custom-component-wrapper-header-end">{props.headerEndComponents}</div>
                     }
                     {
 

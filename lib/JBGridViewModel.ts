@@ -62,10 +62,21 @@ class JBGridViewModel<T extends AnyObject>{
             fullScreenGrid: action,
             goToLastPage: action,
             fetchGridData: action,
+            initFilter:action.bound,
+            InitSize:action.bound,
+            onFetchSuccess:action.bound,
             mergeObject: action,
             sendFirstRequest: action,
             refreshBtnClick: action.bound,
             setSortColumn:action.bound,
+            goToPage:action.bound,
+            openMainHeaderSection:action.bound,
+            openSearchHeaderSection:action.bound,
+            onPageSizeChange:action.bound,
+            InitGrid:action.bound,
+            refreshData:action.bound,
+            showErrorPanel:action.bound,
+            hideErrorPanel:action.bound,
         });
         if (config == undefined || config == null) {
             //when user dont pass config prop
@@ -114,13 +125,13 @@ class JBGridViewModel<T extends AnyObject>{
     }
     sendFirstRequest() {
         this.isLoading = true;
-        this.fetchGridData().then(() => {
+        this.fetchGridData().then(action(() => {
             this.isLoading = false;
             this.hideErrorPanel();
-        }).catch((e) => {
+        })).catch(action((e:any) => {
             this.isLoading = false;
             this.showErrorPanel();
-        });
+        }));
     }
     initFilter(searchbarConfig: SearchbarConfig | null) {
         if (searchbarConfig && this.elements.searchbar.current) {
@@ -184,7 +195,7 @@ class JBGridViewModel<T extends AnyObject>{
     fetchGridData() {
         const fetchGridDataPromise = new Promise((resolve, reject) => {
             const requestBody = this.CreateRequestBody();
-            this.dataBridge.getData(this.config.data.requestParams, requestBody).then((data) => {
+            this.dataBridge.getData(this.config.data.requestParams, requestBody).then(action((data) => {
                 const bridgeData = this.dataBridge.mapServerResponseDataToGridData(data);
                 if (bridgeData.pageIndex == this.config.page.index) {
                     this.config.data.data = [];
@@ -197,7 +208,7 @@ class JBGridViewModel<T extends AnyObject>{
                 } else {
                     console.error('jb-grid requested page index is different from response page index it maybe a bridge problem or server data problem');
                 }
-            }).catch((err) => {
+            })).catch((err) => {
                 reject(err);
             });
         });
@@ -304,7 +315,7 @@ class JBGridViewModel<T extends AnyObject>{
                     if (this.config.callbacks.onPageIndexChange) {
                         this.config.callbacks.onPageIndexChange(destinationPageIndex);
                     }
-                }).catch((e) => {
+                }).catch((e:any) => {
                     reject(e);
                 });
         });
@@ -330,15 +341,15 @@ class JBGridViewModel<T extends AnyObject>{
     refreshData():Promise<void>{
         const refreshDataPromise = new Promise<void>((resolve, reject) => {
             this.isLoading = true;
-            this.fetchGridData().then(() => {
+            this.fetchGridData().then(action(() => {
                 this.isLoading = false;
                 this.hideErrorPanel();
                 resolve();
-            }).catch((e) => {
+            })).catch(action((e) => {
                 this.isLoading = false;
                 this.showErrorPanel();
                 reject(e);
-            });
+            }));
         });
         //every time we need to change showing data we must call this func
         return refreshDataPromise;
