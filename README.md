@@ -162,6 +162,18 @@ you can add expandable row so user can expand row to see more info about a row i
 </JBGrid>
 
 ```
+
+## make it mobile friendly
+
+jb-grid by default is mobile friendly but when it turns to mobile view it show row as cards. this cards show the table fields in themselves but without any label. to show label of columns beside the cell in mobile just add `label` property to each cell like this:
+```jsx
+            <Row>
+                <Cell label="name:">{item.name}</Cell>
+                <Cell label="age:">{item.age}</Cell>
+                <Cell label="operations:"><button onClick={()=>{item.jbGridDetail.isExpanded = !item.jbGridDetail.isExpanded;}}>detail</button></Cell>
+            </Row>
+```
+
 ## styling
 | css variable name                          | description                                                            |
 | -------------                              | -------------                                                          |
