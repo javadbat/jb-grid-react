@@ -1,0 +1,7 @@
+$tablet-width: 768px;
+@mixin tablet {
+    @media (max-width: #{$tablet-width}) {
+        @content;
+    }
+}
+$BaseGridRowColor: #f9f9f9;

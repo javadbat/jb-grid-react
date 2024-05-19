@@ -28,27 +28,27 @@ export type JBGridProps<T extends AnyObject> = {
     children?: React.ReactNode | React.ReactNode[]
 }
 function JBGridComponent<T extends AnyObject>(props: JBGridProps<T>) {
-    const vm = useMobx(JBGridViewModel<AnyObject>, [props, props.config, props.bridge, props.i18n]);
-    useEffect(() => {
-        vm.onComponentDidMount(props.searchbarConfig || null);
-    }, []);
-    useEffect(() => {
-        if (props.isFullscreen !== null && props.isFullscreen !== undefined) {
-            vm.onFullscreenChanged(props.isFullscreen);
-        }
-    }, [props.isFullscreen]);
-    if (!vm.config) {
-        return (<></>);
+  const vm = useMobx(JBGridViewModel<AnyObject>, [props, props.config, props.bridge, props.i18n]);
+  useEffect(() => {
+    vm.onComponentDidMount(props.searchbarConfig || null);
+  }, []);
+  useEffect(() => {
+    if (props.isFullscreen !== null && props.isFullscreen !== undefined) {
+      vm.onFullscreenChanged(props.isFullscreen);
     }
-    return (
-        <JBGridContext.Provider value={vm} key={"jb-grid-context"}>
-            <div className={"jb-grid-wrapper " + (props.className ?? "")} ref={(dom) => vm.JBGridComponentDom = dom} style={props.style}>
-                <Header title={props.title} vm={vm} searchbarConfig={props.searchbarConfig} headerEndComponents={props.headerEndComponents}></Header>
-                <Content i18n={vm.i18n} config={vm.config} isErrorOccurred={vm.isErrorOccurred} isLoading={vm.isLoading} refreshBtnClick={vm.refreshBtnClick} setSortColumn={vm.setSortColumn} styles={vm.styles} errorComponent={props.contentError}>{props.children}</Content>
-                <Footer isFullscreen={props.isFullscreen ?? false} vm={vm}></Footer>
-            </div>
-        </JBGridContext.Provider>
-    );
+  }, [props.isFullscreen]);
+  if (!vm.config) {
+    return (<></>);
+  }
+  return (
+    <JBGridContext.Provider value={vm} key={"jb-grid-context"}>
+      <div className={"jb-grid-wrapper " + (props.className ?? "")} ref={(dom) => vm.JBGridComponentDom = dom} style={props.style}>
+        <Header title={props.title} vm={vm} searchbarConfig={props.searchbarConfig} headerEndComponents={props.headerEndComponents}></Header>
+        <Content i18n={vm.i18n} config={vm.config} isErrorOccurred={vm.isErrorOccurred} isLoading={vm.isLoading} refreshBtnClick={vm.refreshBtnClick} setSortColumn={vm.setSortColumn} styles={vm.styles} errorComponent={props.contentError}>{props.children}</Content>
+        <Footer isFullscreen={props.isFullscreen ?? false} vm={vm}></Footer>
+      </div>
+    </JBGridContext.Provider>
+  );
 }
 
 export const JBGrid = observer(JBGridComponent);

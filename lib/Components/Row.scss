@@ -1,36 +1,25 @@
-$BaseGridRowColor: #f9f9f9;
-$tablet-width: 768px;
-@mixin tablet {
-    @media (max-width: #{$tablet-width}) {
-        @content;
-    }
-}
+@import '../constants';
+
 .jb-grid-wrapper .jb-grid-content{
     .jb-grid-table-row {
         width: 100%;
         display: grid;
         grid-template-columns: auto;
+        background-color: #fff;
         @include tablet {
             grid-template-columns: auto !important;
             grid-template-rows: auto;
-            .jb-grid-table-cell {
-                &:first-child {
-                    box-shadow: 0px 6px 6px #dadada;
-                }
-                &:not(:first-child) {
-                    display: grid;
-                    grid-template-columns: 1fr 4fr;
-                    &::before {
-                        content: attr(data-label);
-                    }
-                }
-            }
+            border-radius: 24px;
+            box-shadow: 0px 0px 1px 0px #d8d8d8;
         }
         box-sizing: border-box;
         grid-auto-rows: minmax(48px, auto);
     
         &:nth-of-type(even) {
             background: $BaseGridRowColor;
+            @include tablet {
+                background: #fff;
+            }
         }
     }
 }

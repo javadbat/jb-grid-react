@@ -1,10 +1,5 @@
 //responsive definition
-$tablet-width: 768px;
-@mixin tablet {
-    @media (max-width: #{$tablet-width}) {
-        @content;
-    }
-}
+@import './constants';
 
 .jb-grid-wrapper {
     width: 100%;
@@ -173,10 +168,14 @@ $tablet-width: 768px;
             height: calc(100% - 32px);
             @include tablet {
                 height: 100%;
+                background: $BaseGridRowColor;
             }
             &::-webkit-scrollbar {
                 width: 9px;
                 background-color: transparent;
+                @include tablet {
+                    width: 0px;
+                }
             }
     
             &::-webkit-scrollbar-thumb {
@@ -187,9 +186,13 @@ $tablet-width: 768px;
                 height: 100%;
                 width: 100%;
                 max-height: 100%;
-                
-                //jb-grid-table-row
-                //jb-grid-table-cell
+                @include tablet{
+                    display: grid;
+                    grid-template-columns: 1fr;
+                    gap:0.5rem;
+                    grid-auto-flow: row;
+                    grid-auto-rows: max-content;
+                }
             }
         }
     }
