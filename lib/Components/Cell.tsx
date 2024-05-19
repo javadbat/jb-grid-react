@@ -4,7 +4,7 @@ type CellProps = {
     children?: React.ReactNode | React.ReactNode[],
     label?: string,
     className?: string,
-    flex:boolean;
+    flex?:boolean;
 }
 function Cell(props: CellProps) {
   const { children, label, className, flex } = props;
