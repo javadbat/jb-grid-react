@@ -8,6 +8,8 @@
         border-bottom: 1px solid #ebebeb;
         box-sizing: border-box;
         overflow: auto;
+        transition: all 500ms 0s linear;
+        max-height: 100%;
         //TODO: change this to nth-child(even of .jb-grid-expand-row) when supported in future. Done:) i just comment it for test
         // &:nth-of-type(even) {
         //     background: #f9f9f9;
@@ -18,8 +20,6 @@
         &:nth-child(even of .jb-grid-expand-row){
             background: #f9f9f9;
         }
-        transition: all 500ms 0s linear;
-        max-height: 100%;
         &.--hidden{
             max-height: 0;
             padding-block: 0;

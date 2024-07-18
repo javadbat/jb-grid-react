@@ -136,10 +136,10 @@
                     padding: 0 16px;
                     align-self: right;
                     overflow: hidden;
+                    display: flex;
                     &.sortable-col {
                         cursor: pointer;
                     }
-                    display: flex;
                     .sort-icon-wrapper {
                         svg {
                             fill: #1e201d;
