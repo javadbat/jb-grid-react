@@ -14,24 +14,32 @@ export { Cell } from './Components/Cell';
 export { ExpandRow } from './Components/ExpandRow';
 
 export type JBGridProps<T extends AnyObject> = {
-    searchbarConfig?: SearchbarConfig | null | undefined,
-    config: JBGridConfig<T>,
-    bridge: JBGridBridgeClassInterface,
-    isFullscreen?: boolean,
-    className?: string,
-    style?: React.CSSProperties,
-    onFullscreenChange?: (isFullscreen: boolean) => void,
-    title: string,
-    i18n?:JBGridI18nConfig | null | undefined,
-    contentError?:ReactNode,
-    headerEndComponents?:ReactNode[] | ReactNode,
-    children?: React.ReactNode | React.ReactNode[]
+  searchbarConfig?: SearchbarConfig | null | undefined,
+  config: JBGridConfig<T>,
+  bridge: JBGridBridgeClassInterface,
+  isFullscreen?: boolean,
+  className?: string,
+  style?: React.CSSProperties,
+  onFullscreenChange?: (isFullscreen: boolean) => void,
+  title: string,
+  i18n?: JBGridI18nConfig | null | undefined,
+  contentError?: ReactNode,
+  headerEndComponents?: ReactNode[] | ReactNode,
+  children?: React.ReactNode | React.ReactNode[]
+
 }
 function JBGridComponent<T extends AnyObject>(props: JBGridProps<T>) {
-  const vm = useMobx(JBGridViewModel<AnyObject>, [props, props.config, props.bridge, props.i18n]);
+  const vm = useMobx(JBGridViewModel<AnyObject>, [props, props.config, props.bridge]);
   useEffect(() => {
     vm.onComponentDidMount(props.searchbarConfig || null);
   }, []);
+
+  useEffect(() => {
+    if(props.i18n){
+      vm.setI18n(props.i18n);
+    }
+  }, [props.i18n]);
+
   useEffect(() => {
     if (props.isFullscreen !== null && props.isFullscreen !== undefined) {
       vm.onFullscreenChanged(props.isFullscreen);

@@ -94,6 +94,24 @@ to config backend service call config you can set `` like this:
         yourConfig.data.requestParams.custom1 = {aa:""};
         yourConfig.data.requestParams.foo = "x";
 ```
+### i18n
+you can pass a i18n config to set a text, number display and other localization config to jb-grid
+```tsx
+const i18nMessages:JBGridI18nMessage = {
+  EnterPageNumberMessage:"شماره صفحه ای که میخواهید وارد آن شوید را وارد کنید",
+  serverErrorText:"متاسفانه در هنگام بارگذاری اطلاعات خطایی رخ داده است",
+  serverErrorTitle:"すみません",
+  serverErrorRefreshButtonTitle:"تلاش مجدد",
+  currentAvailableItem:"تعداد کل ایتم های موجود",
+  pageItemCount:"تعداد آیتم در هر صفحه",
+};
+export const i18n:JBGridI18nConfig = {
+  messages: i18nMessages,
+  showPersianNumber:false
+};
+<JBGrid i18n={i18n}></JBGrid>
+
+```
 ### actions
 
 there is some actions you may want to call inside a grid for example you need to refresh data by code after some entity insert/update or fullscreen grid by code. for doing so you just have to call `actionDispatchers` methods in your grid config after initialization process (after render of jb-grid finish grid will automatically extend your config and add this methods).

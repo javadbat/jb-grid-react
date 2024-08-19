@@ -1,11 +1,14 @@
-import { JBGridI18nConfig } from "./Types";
+import { JBGridI18nConfig, JBGridI18nMessage } from "./Types";
 
-const i18nMessages = {
-    EnterPageNumberMessage:"شماره صفحه ای که میخواهید وارد آن شوید را وارد کنید",
-    serverErrorText:"متاسفانه در هنگام بارگذاری اطلاعات خطایی رخ داده است",
-    serverErrorTitle:"すみません",
-    serverErrorRefreshButtonTitle:"تلاش مجدد",
+const i18nMessages:JBGridI18nMessage = {
+  EnterPageNumberMessage:"شماره صفحه ای که میخواهید وارد آن شوید را وارد کنید",
+  serverErrorText:"متاسفانه در هنگام بارگذاری اطلاعات خطایی رخ داده است",
+  serverErrorTitle:"すみません",
+  serverErrorRefreshButtonTitle:"تلاش مجدد",
+  currentAvailableItem:"تعداد کل ایتم های موجود",
+  pageItemCount:"تعداد آیتم در هر صفحه",
 };
 export const defaultI18n:JBGridI18nConfig = {
-    messages: i18nMessages
-}
+  messages: i18nMessages,
+  showPersianNumber:false
+};

@@ -11,12 +11,12 @@ import { FilterColumn, JBSearchbarValue } from "jb-searchbar/dist/types";
 //     }
 // }
 export type JBGridRowDataDetail = {
-            isDeleting: boolean,
-            isDeleted: boolean,
-            isRecovering: boolean,
-            isExpanded: boolean
-        }
-export type JBGridRowDetail = {jbGridDetail:JBGridRowDataDetail};
+    isDeleting: boolean,
+    isDeleted: boolean,
+    isRecovering: boolean,
+    isExpanded: boolean
+}
+export type JBGridRowDetail = { jbGridDetail: JBGridRowDataDetail };
 export type AnyObject = {
     [key: string]: any;
 }
@@ -43,10 +43,10 @@ export type JBGridRowData<T extends AnyObject> = T & JBGridRowDetail;
 
 export type JBGridResponseData<T extends AnyObject> = {
     pageIndex: number,
-    startItemIndex:number,
-    endItemIndex:number,
-    totalItemsCount:number,
-    totalPages:number,
+    startItemIndex: number,
+    endItemIndex: number,
+    totalItemsCount: number,
+    totalPages: number,
     content: JBGridRowData<T>[],
 }
 export type JBGridFilter = {
@@ -57,17 +57,17 @@ export type SearchbarConfig = {
     columnList: FilterColumn[],
     searchOnChange: boolean
 }
-export interface JBGridBridgeInterface{
+export interface JBGridBridgeInterface {
     mapServerResponseDataToGridData: (data: any) => JBGridResponseData<any>,
     getData: (data: JBGridConfigRequestParams, requestBody: any) => Promise<any>,
-    createRequestBody: (page: JBGridDataPage, filter?: JBSearchbarValue, sortColumn?: JBGridColumnDef | null, requestConfig?: JBGridConfigRequestParams)=>any
+    createRequestBody: (page: JBGridDataPage, filter?: JBSearchbarValue, sortColumn?: JBGridColumnDef | null, requestConfig?: JBGridConfigRequestParams) => any
 }
 // export interface JBGridBridgeClassInterface {
 //     new(): JBGridBridgeInterface
 // }
-type ClassBuilder<I, Args extends any[] = any[]> = new(...args: Args) => I;
+type ClassBuilder<I, Args extends any[] = any[]> = new (...args: Args) => I;
 
-export type JBGridBridgeClassInterface = ClassBuilder<JBGridBridgeInterface,[]>;
+export type JBGridBridgeClassInterface = ClassBuilder<JBGridBridgeInterface, []>;
 //
 export type JBGridDataPage = {
     index: number,
@@ -109,13 +109,17 @@ export type JBGridCallbackConfig<T extends AnyObject> = {
     onDataStandardizing: ((data: JBGridRowData<AnyObject>[]) => JBGridRowData<T>[]) | (<T extends AnyObject>(data: JBGridRowData<AnyObject>[]) => Promise<JBGridRowData<T>[]>) | null | undefined,
     onPageIndexChange: ((newPageIndex: number) => unknown) | null | undefined
 }
+export type JBGridI18nMessage = {
+    serverErrorText?: string,
+    serverErrorTitle?: string,
+    serverErrorRefreshButtonTitle?: string,
+    EnterPageNumberMessage?: string,
+    currentAvailableItem?: string,
+    pageItemCount?:string
+}
 export type JBGridI18nConfig = {
-    messages: {
-        serverErrorText?: string,
-        serverErrorTitle?:string,
-        serverErrorRefreshButtonTitle?:string,
-        EnterPageNumberMessage?:string,
-    }
+    messages?: JBGridI18nMessage,
+    showPersianNumber?: boolean
 }
 export type ActionDispatchers = Readonly<{
     refreshData: () => Promise<void>,
@@ -133,5 +137,5 @@ export interface JBGridConfigInterface<T extends AnyObject> {
 }
 export type JBGridConfig<T extends AnyObject> = JBGridConfigInterface<T>;
 export type JBGridCallbacks = {
-    onFullscreenChange:(isFullscreen:boolean)=>void
+    onFullscreenChange: (isFullscreen: boolean) => void
 }
