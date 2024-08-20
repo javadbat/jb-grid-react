@@ -54,7 +54,7 @@ function Footer(props:FooterProps) {
           <span>{vm.paginationDisplayNumbers.startItemIndex}</span>
           <span>-</span>
           <span> {vm.paginationDisplayNumbers.endItemIndex} </span>
-          <span> &nbsp;از</span>
+          <span> &nbsp;{vm.i18n.messages.from}</span>
           <span title={vm.i18n.messages.currentAvailableItem}>&nbsp; {vm.paginationDisplayNumbers.totalItemsCount} &nbsp;</span>
 
         </section>

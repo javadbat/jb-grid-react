@@ -104,6 +104,7 @@ const i18nMessages:JBGridI18nMessage = {
   serverErrorRefreshButtonTitle:"تلاش مجدد",
   currentAvailableItem:"تعداد کل ایتم های موجود",
   pageItemCount:"تعداد آیتم در هر صفحه",
+  from:"از"
 };
 export const i18n:JBGridI18nConfig = {
   messages: i18nMessages,

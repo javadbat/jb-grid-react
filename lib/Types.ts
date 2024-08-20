@@ -115,7 +115,8 @@ export type JBGridI18nMessage = {
     serverErrorRefreshButtonTitle?: string,
     EnterPageNumberMessage?: string,
     currentAvailableItem?: string,
-    pageItemCount?:string
+    pageItemCount?:string,
+    from?:string
 }
 export type JBGridI18nConfig = {
     messages?: JBGridI18nMessage,
