@@ -1,10 +1,10 @@
 import React, { createContext, useContext } from 'react';
 import { observable, extendObservable, makeObservable, action, computed } from 'mobx';
-import { ActionDispatchers, AnyObject, JBGridBridgeClassInterface, JBGridBridgeInterface, JBGridCallbacks, JBGridColumnDef, JBGridConfig, JBGridConfigInterface, JBGridFilter, JBGridI18nConfig, JBGridResponseData, JBGridRowData, JBGridRowDetail, JBGridStyles, SearchbarConfig } from './Types';
+import { ActionDispatchers, AnyObject, JBGridBridgeClassInterface, JBGridBridgeInterface, JBGridCallbacks, JBGridColumnDef, JBGridConfig, JBGridConfigInterface, JBGridFilter, JBGridI18nConfig, JBGridResponseData, JBGridRowData, JBGridRowDetail, JBGridStyles, SearchbarConfig } from './Types.js';
 import { JBSearchbarWebComponent } from 'jb-searchbar';
-import { defaultI18n } from './i18n';
-import { JBSearchbarValue } from 'jb-searchbar/dist/types';
-import { assign } from 'lodash'
+import { defaultI18n } from './i18n.js';
+import { JBSearchbarValue } from 'jb-searchbar/dist/types.js';
+import { assign } from 'lodash';
 class JBGridViewModel<T extends AnyObject> {
   //we write computed style of grid here
   styles: JBGridStyles = {

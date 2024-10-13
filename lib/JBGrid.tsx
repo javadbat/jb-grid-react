@@ -1,17 +1,17 @@
 import React, { ReactNode, useEffect } from 'react';
-import JBGridViewModel, { JBGridContext } from './JBGridViewModel';
+import JBGridViewModel, { JBGridContext } from './JBGridViewModel.js';
 import { observer } from 'mobx-react';
 import './JBGrid.scss';
-export { JBGridData } from './JBGridData';
+export { JBGridData } from './JBGridData.js';
 import 'jb-searchbar';
-import { AnyObject, JBGridBridgeClassInterface, JBGridConfig, JBGridI18nConfig, SearchbarConfig } from './Types';
-import Footer from './Footer';
-import Header from './Header';
-import Content from './Content';
-import { useMobx } from '../../../common/hooks/useMobx';
-export { Row } from './Components/Row';
-export { Cell } from './Components/Cell';
-export { ExpandRow } from './Components/ExpandRow';
+import { AnyObject, JBGridBridgeClassInterface, JBGridConfig, JBGridI18nConfig, SearchbarConfig } from './Types.js';
+import Footer from './Footer.js';
+import Header from './Header.js';
+import Content from './Content.js';
+import { useMobx } from '../../../common/hooks/useMobx.js';
+export { Row } from './Components/Row.js';
+export { Cell } from './Components/Cell.js';
+export { ExpandRow } from './Components/ExpandRow.js';
 
 export type JBGridProps<T extends AnyObject> = {
   searchbarConfig?: SearchbarConfig | null | undefined,

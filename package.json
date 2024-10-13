@@ -1,6 +1,7 @@
 {
   "name": "jb-grid-react",
   "description": "react mobx jb grid table",
+  "type": "module",
   "author": {
 		"name": "mohammad javad bathaei",
 		"email": "javadbat@gmail.com"
