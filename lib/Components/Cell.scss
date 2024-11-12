@@ -1,4 +1,4 @@
-@import '../constants';
+@use '../constants' as *;
 .jb-grid-wrapper .jb-grid-content {
     .jb-grid-table-cell {
         padding: 4px 16px;

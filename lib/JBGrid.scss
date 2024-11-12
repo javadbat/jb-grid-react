@@ -1,5 +1,5 @@
 //responsive definition
-@import './constants';
+@use './constants' as *;
 
 .jb-grid-wrapper {
     width: 100%;
