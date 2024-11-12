@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import JBGridViewModel from './JBGridViewModel';
+import JBGridViewModel from './JBGridViewModel.js';
 import { JBSearchbarWebComponent } from 'jb-searchbar';
 import { observer } from 'mobx-react';
 type HeaderProps = {

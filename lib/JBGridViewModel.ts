@@ -3,7 +3,7 @@ import { observable, extendObservable, makeObservable, action, computed } from '
 import { ActionDispatchers, AnyObject, JBGridBridgeClassInterface, JBGridBridgeInterface, JBGridCallbacks, JBGridColumnDef, JBGridConfig, JBGridConfigInterface, JBGridFilter, JBGridI18nConfig, JBGridResponseData, JBGridRowData, JBGridRowDetail, JBGridStyles, SearchbarConfig } from './Types.js';
 import { JBSearchbarWebComponent } from 'jb-searchbar';
 import { defaultI18n } from './i18n.js';
-import { JBSearchbarValue } from 'jb-searchbar/dist/types.js';
+import { JBSearchbarValue } from 'jb-searchbar/types.js';
 import { assign } from 'lodash';
 class JBGridViewModel<T extends AnyObject> {
   //we write computed style of grid here
@@ -205,7 +205,7 @@ class JBGridViewModel<T extends AnyObject> {
         if (bridgeData.pageIndex == this.config.page.index) {
           this.config.data.data = [];
           //check user don't change page during loading time if he do we wait for latest response
-          this.#standardData(bridgeData.content).then((content: JBGridRowData<T>[]) => {
+          this.standardData(bridgeData.content).then((content: JBGridRowData<T>[]) => {
             const data = { ...bridgeData, content };
             this.onFetchSuccess(data);
             resolve(null);
@@ -226,7 +226,7 @@ class JBGridViewModel<T extends AnyObject> {
     this.config.data.metaData.totalItemsCount = data.totalItemsCount;
     this.config.page.totalPages = data.totalPages;
   }
-  #standardData(data: AnyObject[]) {
+  standardData(data: AnyObject[]) {
     return new Promise<JBGridRowData<T>[]>((resolve) => {
       const items: JBGridRowData<AnyObject>[] = data.map((item) => {
         const detail: JBGridRowDetail = {

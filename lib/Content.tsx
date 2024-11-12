@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react';
 import React, { ReactNode } from 'react';
-import JBLoading from './Components/JBLoading';
-import { JBGridColumnDef, JBGridConfig, JBGridI18nConfig, JBGridStyles } from './Types';
-import ContentError from './Components/content-error/ContentError';
+import JBLoading from './Components/JBLoading.js';
+import { JBGridColumnDef, JBGridConfig, JBGridI18nConfig, JBGridStyles } from './Types.js';
+import ContentError from './Components/content-error/ContentError.js';
 export type ContentProps = {
     children:React.ReactNode | React.ReactNode[],
     refreshBtnClick:()=>void,

@@ -1,4 +1,4 @@
-import { JBGridI18nConfig, JBGridI18nMessage } from "./Types";
+import { JBGridI18nConfig, JBGridI18nMessage } from "./Types.js";
 
 const i18nMessages:JBGridI18nMessage = {
   EnterPageNumberMessage:"شماره صفحه ای که میخواهید وارد آن شوید را وارد کنید",

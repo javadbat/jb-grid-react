@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react';
 import React, { LegacyRef, useMemo } from 'react';
-import JBGridViewModel from './JBGridViewModel';
+import JBGridViewModel from './JBGridViewModel.js';
 type FooterProps = {
     vm:JBGridViewModel<any>,
     isFullscreen:boolean
