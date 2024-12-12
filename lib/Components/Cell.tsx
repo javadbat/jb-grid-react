@@ -11,7 +11,7 @@ function Cell(props: CellProps) {
   return (
     <div className={"jb-grid-table-cell " + (className ? className : '')} title={label}>
       <div className="cell-label">{label}</div>
-      <div className={"cell-value "+flex?'flex-cell':''}>{children}</div>
+      <div className={"cell-value " + (flex?'flex-cell':'')}>{children}</div>
     </div>
   );
 }
