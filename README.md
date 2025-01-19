@@ -1,9 +1,7 @@
 # jb-grid-react
 
-* @summary A React component for displaying a grid of items.
-* @version 1.0.2
-* @homepage https://github.com/javadbat/jb-grid-react#readme
-* @license MIT
+> [!WARNING]  
+> this package is deprecated and moved to [jb-input/react](https://github.com/javadbat/jb-input/tree/main/react)
 
 react mobx table grid with pagination, filtering and sorting functionality.
 
