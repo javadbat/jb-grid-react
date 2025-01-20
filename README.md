@@ -1,9 +1,9 @@
 # jb-grid-react
 
 > [!WARNING]  
-> this package is deprecated and moved to [jb-input/react](https://github.com/javadbat/jb-input/tree/main/react)
+> This package is deprecated and moved to [jb-grid/react](https://github.com/javadbat/jb-grid/tree/main/react)
 
-react mobx table grid with pagination, filtering and sorting functionality.
+react mobx table grid with pagination, filtering, and sorting functionality.
 
 - responsive
 - mobx ready
